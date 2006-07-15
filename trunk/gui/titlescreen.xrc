@@ -1,0 +1,41 @@
+<?xml version="1.0" ?>
+<resource>
+  <object class="wxDialog" name="DIALOG1">
+    <title></title>
+    <object class="wxBoxSizer">
+      <orient>wxVERTICAL</orient>
+      <object class="spacer">
+        <size>0,20</size>
+        <flag></flag>
+      </object>
+      <object class="sizeritem">
+        <object class="wxStaticBitmap">
+          <bitmap>C:\Workfolder\iSpider\images\newlogo_ipodder_animated.gif</bitmap>
+        </object>
+        <flag></flag>
+      </object>
+      <object class="spacer">
+        <size>0,5</size>
+        <flag></flag>
+      </object>
+      <object class="sizeritem">
+        <object class="wxBoxSizer">
+          <orient>wxHORIZONTAL</orient>
+          <object class="spacer">
+            <size>10,0</size>
+          </object>
+          <object class="sizeritem">
+            <object class="wxStaticText">
+              <label>(C) 2004. iPodder is Free Software licensed under the GPL
+</label>
+            </object>
+            <flag>wxEXPAND|wxALIGN_CENTRE_HORIZONTAL</flag>
+          </object>
+        </object>
+      </object>
+    </object>
+    <centered>1</centered>
+    <style>wxSYSTEM_MENU|wxSIMPLE_BORDER</style>
+    <bg>#FFFFFF</bg>
+  </object>
+</resource>

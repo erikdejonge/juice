@@ -1,0 +1,18 @@
+#!/bin/sh
+
+appdir=/Applications/iPodder
+
+# Migrate any 1.0 configuration data to the new location.
+if [ $HOME ]; then
+  basedir="$HOME/iPodderData"
+  if [ ! -d $basedir ]; then
+    mkdir $basedir
+  fi
+  chown $USER $basedir
+  for file in favorites.txt history.txt schedule.txt; do
+    if [ -f $appdir/$file -a ! -f $basedir/$file ]; then
+      cp $appdir/$file $basedir
+      chown $USER $basedir/$file
+    fi
+  done
+fi

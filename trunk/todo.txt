@@ -1,0 +1,96 @@
+
+Todo list iPodder v2.1
+1 June 2005
+------------------------------
+
+- One-click subscription / Windows - AG
+- One-click subscription / Mac - EdJ/Ernesto
+- Set cleanup for all feeds with one button - AG
+- Make iPodder robust to iTunes restarts
+- i18n translations - MV / Community
+- Torrent proxy support [??] - EdJ/GTK
+- Manual - Ian
+- The release site with the new graphics, and credit page. - MV
+- Configurable catchup - AG/GTK
+
+- [done] - The statusbar feedback
+  [done] -- Correct Gauges (only one)
+  [done] -- Correct download information
+  [??]-- Nice feedback if downloads are ready
+- [done] Move screen_language out to the configuration file
+- [done] FAQ - MP (Mark Posth) 
+- [removed] Repainting issue (win server 2003) - AG / MV
+- [done] Icon for checking - MV
+- [done] Mac and Windows donations-box (two different ones because of lay-out) + Keyboard shortcut to raise it! - AG / MV
+- [done] Statusbar/Toolbars [AG: works on windows but not mac]
+- [done] Icon fix. The icon in the framebar (top-left) is scaled down which makes it ugly. (see mail Robin Dunn) - AG
+- [done] i18n / wiring - EdJ
+- [done] icns file for mac - MV
+- [done] Ability to deactivate integration with iTunes - EdJ / AG / GTK
+- [done] If Spotlight enable Check functionality (check selection) - EdJ
+- [done] Enable/disable icons directory - AG
+- [done] Ico file changes - MV
+- [done] Spotlight modification - MV / EdJ
+- [done] Spotlight in Downloads wiring - EdJ
+- [done] Threaded downloads preferences setting (amount of threaded downloads simultaniously) - EdJ/GTK
+- [done] Disabling 'check all'/'catch-up'/'check selected' in Menubar if a run/download is going on - AG
+- [done] Fix intermittent re-downloading of downloaded files (history lost?) - AG
+- [done] Import/Export opml fix (see bugtracker) - AG
+- [done] Download-tab: If qeued download is removed, remove it also from the qeue - AG
+- [done] Extra columns in downloadstab: complete (%) x of x Size (mb) [did: progress]- MV
+- [removed] Clean-up tab GUI change - MV
+- [removed] Exporting of feed items in XML to disk - GTK (optional)
+- [removed] FRQ: Delete all button in the clean-up tab? - AG (optional)
+- [done] Resume downloads - GTK
+- [done] Right-Click clean-up in the directory tab - GTK / AG
+- [done] After 30 days pop-up to raise the 'donation-funds' - AG
+- [removed] Wiring Edit menu (cut/copy/paste/Select all) in Menubar - EdJ/AG
+- [done] Logo update (about/titlescreen updates) - MV
+- [done] Directory refresh/open-all/close-all wiring - AG
+- [done] Wiring 'remove feed' / 'feed properties' in the Menubar - AG
+- [done] Keyboard shortcuts - MV / AG
+- [done] Removing Gauges on idle - EdJ / GTK
+- [fixed]*[AG: IMO either adam fixes this or we take ipodder.org out] Directory errors (parsing failure) - EdJ / GTK / AG
+- [done] Pause/Cancel downloads - GTK
+- [done!] Threaded downloads - GTK
+- [done] Write good backup/restore instructions for beta testers - AG
+- [done] Right-click functionality on items in downloads tab - AG
+- [removed] iPodder v2.0beta should work with a running iPodder v1.1.4 copy (for testing purposes)- AG
+- [fixed] 1K downloads issue ? - EdJ / AG / GTK
+- [done] Icons for all possibilities - MV
+- [done] New button for "Check in catch up mode" - MV
+- [done] Check for new upates - EdJ
+- [done] Normal mode / Catch up mode - EdJ / AG / GTK
+- [done] Play only on clicking the image (Mac issue) - AG
+- [done] Delete items from downloadstab - AG
+- [ripped-out] Check selected - (change to: Download episodes) in subscriptions tab - AG
+- [done] Scheduler Icon change (subscr. tab)(mv: i created 2 images, one with checkbox on one with checkbox off) - AG
+- [done] Arrow (in listcontrol) enhancements - MV / AG
+- [done] Add Scheduler information to the subscriptions-tab (add next run info under the second splitted frame) tab - MV / AG
+----------------
+* removed: for later on
+
+
+
+
+
+
+
+====================
+Pre 1.1.2 STUFF
+====================
+
+[ 1064105 ] Filter by MIME types
+[ 1061152 ] iPodder fails to set grouping on new Podcasts
+1054400	Fix feed and enclosure counts - gtk (50% done)
+1053402	installer issue: Add version number an properties to the file.
+1043941	WinAmp support
+1047244	Set genre on downloaded podcasts
+1045367	Proxy support
+1043958	More traybar icon states
+* Feed-specific conversion of content to preferred encoding formats to
+  save space, particularly for those with smaller media players. 
+* Conversion to Apple's format and changing the extension from w4a to
+  w4b so iPods will think a long broadcast is an audio book and keep a
+  bookmark. 
+* Over-riding a show's crummy ID3 tags with tags that make sense. 

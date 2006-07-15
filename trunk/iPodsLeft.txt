@@ -1,0 +1,21 @@
+Done:
+
+* gui*, except for references to iPodderX
+* All the loggers
+* hiPodder.py
+
+Places where we still have to get rid of iPods: 
+
+* docs/* 
+* win32/setup.py where it refers to docs/*
+* win32/oneclick.py registry key names -- need to be a little clever
+* win32/hiPodder*
+
+We also need to change, on the web site: 
+
+* ipodder-users.xml to juice-users.xml
+* opml/ipodder.opml to juice.opml
+
+Fun tip:
+
+* In GVIM, search (/) for: [^. ]ipod

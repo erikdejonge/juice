@@ -1,0 +1,8 @@
+rm -Rf iPodder.app
+rm *.gz
+rm *.tar
+python ../osx_packaging/osx_bundlebuilder.py 
+tar -cf mac-iPodder2-beta.tar ./iPodder.app/
+gzip mac-iPodder2-beta.tar
+sftp -b daily_build_mac rabshakeh@ipodder.sourceforge.net
+

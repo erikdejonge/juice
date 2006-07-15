@@ -1,0 +1,411 @@
+﻿
+iPodder
+USER GUIDE
+For iPodder on Windows systems
+
+
+Part of the iPodder Documentation
+
+Table Of Contents
+
+1. Introduction
+2. Getting Started
+	2.1. Requirements
+	2.2. Installation
+	2.3. Starting iPodder
+3. The User Interface
+	3.1. Downloads
+	3.2. Subscriptions
+		3.2.1. The Subscriptions Tab buttons from left to right
+		3.2.2.More controls for Podcasts listed in Subscriptions
+	3.3. Podcast directory
+	3.4. Cleanup
+	3.5. Log (optional)
+4. Setting Preferences
+	4.1. General
+		4.1.1. Location and storage management
+	4.2. Threading
+	4.3. Network settings
+	4.4. Player
+	4.5. Feed manager
+	4.6. Advanced
+5. Other features
+	5.1. OPML Import / Export
+		5.1.1. Importing an OPML file
+		5.1.2. Exporting an OPML file
+	5.2. Language Change
+	5.3. Update Checks
+	5.4. Placing Donations
+6. Walk-throughs
+	6.1. Subscribing to a Podcast
+	6.2. Downloading Podcast episodes
+		6.2.1. Download most recent episodes
+		6.2.2. Download all episodes you don't have already
+7. Guide Information
+	7.1. iPodder Documentation
+	7.2. Credits
+	7.3. Errata Reporting
+	7.4. Documentation License
+
+= 1. Introduction
+
+iPodder is the first cross-platform Podcast receiver. You can use it to Subscribe to Podcasts, receive them and listen to them on your computer or portable audio player.
+
+With iPodder you can easily Subscribe to your favorite Podcast feeds, or any Podcast you find on the Internet. 
+
+You can have iPodder make periodic checks for new episodes, or even schedule a time for checking yourself.
+
+Bringing you always the freshest Podcasts as they are made available, iPodder makes it easy for you to organize and synchronize content.
+
+This User Guide will introduce you to the basics of iPodder, and will help you to better enjoy your experience with it.
+
+= 2. Getting Started
+
+To begin receiving the Podcast shows of your choice, you need to download and install iPodder on your computer.
+
+To download the latest version of the iPodder software, please visit the website, at: http://ipodder.sourceforge.net
+
+== 2.1 Requirements
+
+iPodder requires the following in order to work properly in your system. Make sure your system meets the minimum requirements before you install the software.
+
+Software
+Operating Systems: Windows 2000 or Windows XP
+Audio Playback: Windows Media Player or iTunes
+
+Hardware
+Free Disk Space: 100 MB
+RAM: 256 MB
+
+== 2.2 Installation
+
+After you have downloaded the iPodder installer, double click on it to commence the Installation. If you cannot remember where you downloaded / saved the installer try a Search on your computer files and folders for iPodder*Setup.exe
+
+Once you locate the installation file, double click on it.
+
+The installation process will begin, and you can see the iPodder Setup Wizard window.
+
+Click on the Next button and then read the License Agreement. You need to agree to the License Agreement by clicking the "I Agree" button in order to continue with the installation.
+
+Next you have to choose the location on your hard disk drive where iPodder will be installed. By default it will create a folder named "iPodder" within the Program Files folder and place all needed files for the software to operate in there. We recommend you don't change the default destination folder unless you know what you're doing. Click on the Next button.
+
+Now is time to Choose Components. Here you can tell the Setup Wizard to create a shortcut to iPodder on your desktop by leaving the check box next to that option checked. If you also check the option "Add to Startup Group", iPodder will be started every time to boot your computer.
+
+Click on the "Install" button, sit back and relax. The installation process should not take more than a few seconds, so don't relax too much. On the final screen you are informed that the installation process is completed and you have the option to Run iPodder and view the useful Readme file when you click on the "Finish" button.
+
+Congratulations, you now have iPodder running on your system and are ready to get those Podcasts delivered to you!
+
+== 2.3 Starting iPodder
+
+You can easily start iPodder by either double clicking on the iPodder shortcut icon on your desktop, or if you opted not to have one, by clicking on the iPodder shortcut located in the Start -> All Programs -> iPodder group.
+
+A splash screen featuring the iPodder Lemon logo will appear and the software will appear on your screen.
+
+= 3. The User Interface
+
+The iPodder User Interface is organized in Tabs. There Tabs provide one-click access to different sets of information and control tools over the iPodder software. The next few pages will introduce you to this environment and will guide you into gaining absolute control over your Podcasting experience.
+
+== 3.1 Downloads
+
+First Tab from the right is Downloads. Here iPodder lists the various Podcast episodes you may be downloading at any given time. Separate types of information are provided on 6 different columns, while information on each download is grouped in a row.
+
+In the Downloads Tab, you can see the Podcast episode's Name, State, Progress, Date, Playlist association and Location on the Internet.
+
+In addition, the Tab's Status Bar displays information as to how many downloads are in progress, and the upload/download speed of the files. In the Status Bar of the window, live information on what iPodder is currently doing and what it results to are provided (Such as scanning a number of feeds).
+
+You can select items in the Download tab by clicking on them (Select multiple items by holding down the Ctrl or Shift keys), and then Remove or Cancel them with the red "x" and "–" buttons. You can even search the Download List by entering search terms in the available text box next to these buttons and pressing the "Enter" button.
+
+Removing a download from the Downloads Tab will not delete the downloaded or partially downloaded file from your computer. To do this you need to use the Cleanup Tab.
+
+If you right click on a Download from the list, you will see a pop-up menu with the options to play an Episode in your chosen Player software, remove the download from the list with "Clear selected items", or check any available information on it with "Show Notes".
+
+== 3.2 Subscriptions
+
+The Subscriptions Tab is key to the iPodder application. It allows you to manage everything about your subscriptions to Podcasts. Here you can add a Podcast's Feed, check it, and begin receiving content. Every Podcast you add is displayed in the Subscriptions Tab's upper list, allowing you to easily check for new episodes which display in the list on the lower part of the window, and do several other things which we discuss here.
+
+=== 3.2.1 The Subscriptions Tab buttons from left to right
+
+1)"Check for new podcasts". Clicking this first button will tell iPodder to check all the Podcast feeds you have listed (subscribed), for new Podcast Episodes.
+
+2)"Catch-up". Clicking the second button tells iPodder to only download the last new episodes from the Podcast feeds you have subscribed to.
+
+This is called "Catch-up" and a pop-up window will ask you whether you want to skip other (previously available, not the latest) episodes you have not downloaded yet permanently or just this once. If you are confident you will never want to change this setting in the future you can check the box next to "Don't ask me again". This will force Catch-up to perform as you prescribed from then on. (You can change this setting at a later time by going to the File / Preferences / General Tab).
+
+3)"Add new feed" is the third button from the left. Click on it when you know the URL address to a Podcast feed you wish to subscribe to. A pop-up window will open, and will prompt you to enter the Feed's URL.
+
+Make sure you are connected to the Internet and enter the Feed's URL in the URL box. Then click on the "Save" button. iPodder will check the feed and enter the Title automatically. Optionally check and select in how many days after download episodes should be deleted.
+
+4)"Remove selected feed" is the fourth button from the left (one with the red circle / white x) and it will banish the Feed from your Subscriptions. This means iPodder will not be able to check that Podcast for content again, unless you subscribe to it again! It is important to notice that clicking on an Episode in the lower list and then on the "Remove selected feed" button will delete the Entire Feed and not that particular Episode. You can automatically delete Episodes which are older than any given count of days using the next button (Properties).
+
+5)"Properties" is the fifth button from the left and it will display a pop-up window with information on the selected Feed 
+
+The "Feed properties" allow you to make changes to the Podcast Feed's URL address if appropriate, and if you check the option "Automatically delete episodes more than 14 days old" you can also change the number of days iPodder will wait before deleting old Episodes from that Podcast.
+
+6)"Check / download selected feed" is the sixth button from the left, and if you click it iPodder will scan the selected feed for updates and start downloading new Episodes.
+
+7)"Scheduler" is the final button in the series we are discussing and it provides you one-click access to the iPodder Scheduler
+
+The Scheduler gives users a variety of options for setting iPodder to automatically check Feeds for new content and download them, at set times or regular intervals. This means you can either tell iPodder to check for new content at 3 different times during a 24 hour period, or you can set it to check every so on, with options ranging from every 30 minutes to every 12 hours. If you would like to play Podcast shows right after Scheduler has downloaded them, check the available option at File / Preferences... / General Tab.
+
+8)The text box next to the magnifying glass on the Subscriptions Tab, is a dynamic search box. This means that as you enter a word, iPodder will try to match it in Podcast Feeds you are subscribed to and display them in the list below.
+
+=== 3.2.2 More controls for Podcasts listed in Subscriptions
+
+Some of the functions discussed as accessible via the Subscription Tab's buttons are also available if you right click on a Podcast Feed. A pop-up menu will appear, allowing you to Check and download new Episodes from it, Remove it, open the local folder on your computer where content from that Feed is stored at, or even open the Feed's URL with your web browser.
+
+In the Episodes listing of a Podcast Feed, if you right click on an episode, another smaller pop-up menu "Show Notes" will appear, allowing you to visit a web page with more information on that particular Episode (such as a related blog post).
+
+== 3.3 Podcast directory
+
+The Podcast directory Tab displays a "folder tree" type listing of Podcast directories. Podcast directories are where Podcast producers list their Feeds, much like a website owner would add her website to an Internet website directory.
+
+You can use these to find all kinds of interesting, popular or content specific Podcast shows for you to subscribe to and get with iPodder.
+
+Also you can use the text box at the top of the Tab to add a Podcast directory's Feed which is not currently among the preselected Feeds available in iPodder.
+
+The three available buttons allow to (from left to right) Refresh the contents of the directories, Open all folders, and Close all folders.
+
+To Open a particular directory's folder, simply click on it.
+
+== 3.4 Cleanup
+
+The Cleanup Tab allows you to clean up your system from all the clutter of Podcast shows you've listened to in the past and are now just taking up valuable space.
+
+You can select one of the Podcast Feeds you are subscribed to from the "Select a feed" drop-down menu.
+
+According to the checked options in the "Look for episodes in" box, iPodder will search for Episodes of that Feed in the "Player library" or / and the "Downloads folder". All Episodes found there will be listed in the available box below.
+
+Than you can manually check any Episodes you wish to clean up, or use the "Select all" button and manually uncheck those you wish not to be disturbed by the Cleanup process.
+
+You can also check the options "Delete library entries" or / and "Delete files" according to the type of Cleanup (Delete) you wish to perform.
+
+== 3.5 Log (Optional)
+
+The Log Tab displays technical information about what the iPodder does when it is prompted by the user to perform a task. It can be useful for troubleshooting or trying to establish whether a particular Feed is not functioning as it should.
+
+You can delete the contents of the Log Tab by clicking the "Clear" button. The text that displays in the Log Tab's text box, can be Copied and Pasted as you do with any text on your computer. However the contents of the Log Tab are produced automatically by iPodder and text cannot be entered there by the user.
+
+Display of the Log Tab among the tabs of the main iPodder window, is optional and can be enabled by checking the available option at File / Preferences... / Advanced (tab) / "Show log tab in application".
+
+= 4. Setting Preferences
+
+To open the "Preferences" window in iPodder, which allows you to edit / set options for the application, please click on File / Preferences...
+
+The "Preferences" window will appear where you will see six different Tabs each containing options for different parts of the iPodder, giving you maximum control over how the application works and how you enjoy your Podcast Receiving experience.
+
+In this User Guide, we discuss each Tab and the options it provides the user with. Some of these options you may have been prompted for before, within the iPodder main window. Here you can change or edit them.
+
+== 4.1 General
+
+The "General" Tab, allows you to set the General option relating to the iPodder application. The check boxes in the upper section of this tab, will make the statements next to them true if they are checked by the user. 
+
+There you can opt to have iPodder do the following:
+
+- At startup only show iPodder in the system tray
+The application stays minimized in a system tray iPodder Lemon icon when it is started.
+
+- Run a check for new podcasts when the application is started
+Have iPodder automatically check within your subscriptions for new content every time it is started.
+
+- Play downloads right after they're downloaded
+iPodder will automatically call on your chosen Player to start playing a newly downloaded Podcast Episode.
+
+- Check for new versions of the application at startup
+This will allow iPodder to check if a new version of the application is available for download. This is better left checked as new versions may offer bug fixes and more functions.
+
+- Always use iPodder for one-click subscription
+Check this if you want iPodder to catch Podcast Feeds available through one-click subscription and it will allow you to subscribe to them with a single click.
+
+- Catch-up skips older episodes permanently
+If this is checked, every time you run "Catch-up" in the main Subscriptions Tab, any older than the latest available Podcast Episodes you have not downloaded yet will be permanently skipped by iPodder.
+
+- Continue running in the background when I close the main window
+If this option is checked, every time you close the iPodder window (either by the x button, File / Close window, "Ctrl+w" or "Alt+F4") it will continue to work in the background and stay minimized in an iPodder Lemon icon in the system tray. To quit the application you would then need to use File / Quit, Ctrl+q, or right click on the iPodder Lemon system tray icon and select "Quit" from the menu. To restore the iPodder window from the system tray, right click on the icon and select "Open iPodder".
+
+=== 4.1.1 Location and storage management
+
+On the lower part of the "General" Preferences Tab, are the "Location and storage management" settings.
+
+There you can set a minimal amount of available space on your hard drive that would trigger iPodder to stop downloading should it ever be reached. This is a nice protective measure against absentmindedly having the free space on your hard drive all taken up by old Podcast Episodes.
+
+Also you can choose the folder into which Podcasts will be downloaded. Remember, iPodder makes new folders automatically for each Podcast you download Episodes from. All these folder and their content will be located where you indicate here. The default option is a wittily named "My Received Podcasts" folder in your "My Documents" folder.
+
+== 4.2 Threading
+
+The Threading Tab allows you to set a number for:
+
+Maximal threads for feedscanning per session 
+(Available options range between 1 and 16)
+
+Maximal downloads per session
+(Available options range between 1 and 6)
+
+These setting can be very useful in improving download performance. If your bandwidth allows it you can experiment by changing the defaults and seeing which setting works best for you.
+
+Any changes you make to how multiple downloads are treated should be saved by clicking the "Save" button on the Threading Tab.
+
+== 4.3 Network settings
+
+On the "Network Settings" Tab you are given the option to use a proxy server with iPodder. To enable this option you must make sure the box next to "Use a proxyserver" is checked and that you enter the full URL address of the proxy server you want to use as well as the port number.
+
+The other available option, in experimental use in iPodder 2.1 is "Coralize URLs".
+It is aimed at placing URLs in order.
+
+== 4.4 Player
+
+The "Player" Tab allows the user to pick between iTunes and Windows Media Player for the default Player they want to play and manage synchronization of Podcast Episodes with.
+
+Of course if you want to use one of the listed Players you must first have it installed on your computer. If you want to use a different media manager / player, your best chance is to set the option to "No player" and then iPodder will check with your system for the default media player you are using and use that.
+
+Another option on this tab is for setting track genre options in iTunes. Of course "Podcast" is the recommended setting here.
+
+== 4.5 Feed Manager
+
+The "Feed Manager" Tab allows you to Synchronize your subscriptions to a remote service you may be using to store the URLs to your favorite Podcasts (Such as in my.podnova.com)
+
+Simply enter the full URL to the OPML file holding your favorite Podcasts and it will automatically be synchronize your iPodder subscriptions to it.
+
+A link to PodNova, an online Feed Manager compatible with this iPodder feature is also provided in the form of a button.
+
+== 4.6 Advanced
+
+On the "Advanced" Tab of the "Preferences" window the ability for Power Users to run custom commands after each download is given. The command's code is entered into the text box, and the box next to "Run this command after each download" should be checked in order for it to execute.
+
+Another available option is the "Show log tab in application". The Log Tab in the main iPodder window, offers valuable technical information about how iPodder executes various tasks, and what problems such as a corrupt Feed could be hindering a download. Although ineligible to the uninitiated this Log output is of great use when troubleshooting or seeking expert advice.
+
+= 5. Other Features
+
+iPodder boasts an easy to use, self explanatory user environment which is under continuous watch for improvements. The more you use iPodder, you will soon realize which of the several paths, keyboard shortcuts, you can use to do something best suits you. Some of the Features not accessible via the iPodder Tabs but only through the top drop-down menus are explained in this section.
+
+== 5.1 OPML Import / Export
+
+iPodder allows you to import your favorite Podcast Feeds from an OPML file you have stored locally on your computer. Alternatively you can also export your current subscription list on another OPML file for backup purposes, or to use somewhere else.
+
+=== 5.1.1 Importing an OPML File
+
+1)Click on the "File" drop-down menu and select "Import feeds from opml..." (or you can try holding down Ctrl+Shift+o on your keyboard while at the iPodder main window)
+2)From the "Select import file" window, locate the OPML file you wish to import to iPodder on your computer, and double click on it (or click once to select and then click on the "Open" button).
+
+iPodder will then import the OPML file you selected.
+
+=== 5.1.2 Exporting an OPML File
+
+1)Click on the "File" drop-down menu and select "Export feeds as opml..."
+2)In the "Choose a name for the export file" window, enter the desired name for your OPML file, or keep the default name which makes it easy to identify the file as containing your iPodder subscriptions. Also point to where you want the file to be saved.
+
+iPodder will then export the OPML file of the feeds in your Subscriptions and store it in the location you have designated on your computer.
+
+== 5.2 Language Change
+
+If you would like to change the User Interface language of iPodder to one of the many (more than 15) different locales available, please do the following:
+
+1)Click on Tools / Select language, and then on the language of your choice.
+2)Restart iPodder for the language file to be activated.
+
+== 5.3 Update Checks
+
+To manually check for a more recent version of the iPodder application to the one you are using, click on the "Help" drop-down menu and then choose "Check for Update..."
+
+Keeping your software applications up to date is vital to maintaining an up to speed, safe and enjoyable computer environment!
+
+== 5.4 Placing Donations
+
+Donations from satisfied users like yourself is what keeps the iPodder project alive and constantly improving. If you enjoy using iPodder and you would like to  support its development, one easy way to do that is by clicking on the "Help" drop-down menu, and then selecting "Make a Donation".
+
+= 6. Walk Throughs
+
+Some people prefer to be guided step by step the first time they use something, such as a software application. In this section of the User Guide you will find a series of walk-throughs to some of the essential functions of the iPodder.
+
+== 6.1 Subscribing to a Podcast
+
+When you Subscribe to a Podcast with iPodder, it checks for new Episodes on that Podcast and makes it easy to discover and download them. Each Podcast publishes a news Feed in RSS or less commonly Atom. You need to give iPodder that Feed's address in order to Subscribe to it.
+
+A Podcast's Feed URL (Address) is usually given on the web page where you discover a Podcast. Look for a Feed's URL or a text or graphic link that says something like "RSS" or "Podcast Feed" on it.
+
+If the Podcast Feed's address is in the form of a link on a web page, right click on it on your web browser and select "Copy Shortcut" on IE, or "Copy link location" on Firefox. Then you can paste instead of typing it as described on step number 4.
+
+Steps
+1)Start iPodder
+2)With the iPodder window open, press "Ctrl+N" on your keyboard or go to "Tools / Add a Feed..."
+3)An "Add a Feed" window pops up. In the URL text box, add the Feed's address (Not the website address, the RSS or Atom address).
+4)Click on the "Save" button.
+
+That's it, iPodder checks that Feed URL and if it is a valid Podcast Feed it will add it to your Subscriptions so you can check and download Episodes from it.
+
+== 6.2 Downloading Podcast Episodes
+
+Lets assume you are Subscribed with iPodder on a number of Podcasts and you want to actually get the shows brought to you. What do you do?
+
+The following steps show you how to get the latest or all missed Episodes of a Podcast.
+
+=== 6.2.1 Download most recent episodes
+
+Steps
+1)Start iPodder
+2)Go to the "Subscriptions" tab.
+3)Click on the Catch-up button, or press F6 on your keyboard, or select "Tools / Catch-up"
+4)In the pop-up window, select the option "Skip this time only" if you want to later be able to download older Episodes from that Podcast with iPodder.
+5)Click on the OK button.
+
+That's it! iPodder will automatically check the Podcasts you are Subscribed to for new content and start downloading them. If you don't wish to download new Episodes for all these Podcasts, you can go to the "Downloads" tab, select the undesirable Podcasts and click on the "Cancel selected download".
+
+=== 6.2.2 Download all Episodes you don't have already
+
+>From All Podcasts in your Subscriptions
+Steps
+1)Start iPodder
+2)Go to the "Subscriptions" tab.
+3)Click on the "Check for new podcasts" button.
+
+That's it! iPodder will check all Feeds in your Subscriptions for new content and start downloading them. All content since the last time you downloaded from a Podcast that is still available will be downloaded.
+
+>From A Selected Podcast in your Subscriptions
+Steps
+1)Start iPodder
+2)Go to the "Subscriptions" tab.
+3)Click on the Podcast you want to check from the list, to select it.
+4)Click on the "Check / Download selected feed" button.
+
+That's it! iPodder will check that particular Podcast Feed and download any Episodes from it you haven't downloaded already.
+
+= 7. Guide Information
+
+This User Guide is intended for users of the iPodder software application on a compatible Windows operating system. Some or all of the information contained herein may not apply to the versions of iPodder for the Linux or Macintosh operating systems. For more information on those, please check the iPodder Documentation website.
+
+== 7.1 iPodder Documentation
+
+The iPodder Documentation is an ongoing project, with changes and updates on a frequent basis. If you would like to check for a more recent version of this User Guide, or the Online (constantly updated) version, please visit: 
+
+iPodder Documentation
+http://ipodder.sourceforge.net/docs/
+
+iPodder Online Documentation (iPodderpedia)
+http://www.ipodderlemon.com/wiki/
+
+More information and user support can also be found at:
+
+iPodder Lemon Support Forum
+http://www.ipodderlemon.com/support/
+
+== 7.2 Credits
+
+Project: iPodder Documentation ( http://ipodder.sourceforge.net/docs/ )
+File: iPodder User Guide (For iPodder on Windows systems)
+
+The iPodder Team
+http://ipodder.sourceforge.net/team/
+
+== 7.3 Errata Reporting
+
+To report errors or omissions in this User Guide, please see:
+
+iPodder Documentation
+http://ipodder.sourceforge.net/docs/
+
+== 7.4 Documentation License
+
+The iPodder User Guide (For iPodder on Windows systems) is part of the iPodder Documentation, which is published under the following Creative Commons License:
+
+Creative Commons License:
+Attribution, Non Commercial, No Derivatives (by - nc - nd 2.5)
+http://creativecommons.org/licenses/by-nc-nd/2.5/
