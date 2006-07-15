@@ -1,0 +1,16 @@
+<html xmlns:nevow="http://nevow.com/ns/nevow/0.1">
+    <head>
+        <title>LivePage Demonstration</title>
+        <nevow:invisible nevow:render="liveid"/>
+        <nevow:invisible nevow:render="liveglue"/>
+    </head>
+    <body>
+        <h1 id="head">Twist me, baby!</h1>
+        <div id="pingform">
+            <form name="ping" nevow:render="form">
+                <input id="payload" name="payload" />
+                <button type="submit">Ping!</button>
+            </form>
+        </div>
+    </body>
+</html>

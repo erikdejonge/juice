@@ -1,0 +1,109 @@
+Release process (2.2.1 on Windows)
+==================================
+
+I did something along these lines:
+
+* Install `NSIS <http://nsis.sourceforge.net/Main_Page>`__
+* Install `FindProc <http://nsis.sourceforge.net/Find_Process_By_Name>`__
+* From a command prompt::
+
+    cvs tag v_2_21_rc1
+    mkdir v_2_21_rc1
+    cd v_2_21_rc1
+    cvs -d :ssh:gtk@cvs.sourceforge.net:/cvsroot/juicereceiver export -r v_2_21_rc1 juice
+    cd juice
+    python23 win32\setup.py py2exe
+    cd dist
+    ren gui.exe Juice.exe
+    mkdir mp3
+    xcopy /d ..\mp3 mp3
+    echo f | xcopy /d c:\Python23\python.exe.manifest Juice.exe.manifest 
+
+* Run ``MakeNSISW (compiler interface)`` from the NSIS Menu. 
+* Open ``v_2_21_rc1\juice\win32\Juice-2.2.1.nsi``
+
+Release process (2.0beta)
+=========================
+
+0. Build machine configuration
+
+Same as before except bumped up to wxpython 2.5.3.1
+
+1. Bump up the version in configuration.py
+
+2. tag the tree
+
+cvs tag v_2_beta_2
+
+3. new build.sh script has the rest.
+
+
+Release process (1.1.3)
+=======================
+
+0. Build machine configuration
+
+Windows: XP Pro SP1
+Python: 2.3.4
+WxPython: 2.5.2.8u for Python 2.3
+Py2exe: Python 2.3 py2exe-0.5.4
+PyWin32: Python 2.3 pywin32 extensions (Build 202)
+
+1. Bump up version in configuration.py
+
+2. tag the tree
+
+cvs tag v1_1_2
+
+3. py2exe
+
+cd /cygdrive/c/
+cvs -d :ext:aegrumet@cvs.sourceforge.net:/cvsroot/ipodder export -r v1_1_3 iSpider
+cd iSpider
+cp win32/setup.py .
+python setup.py py2exe
+mv dist/iPodderGui.exe dist/iPodder.exe
+mkdir dist/images
+cp images/*.gif dist/images
+mkdir dist/mp3
+cp mp3/boing.mp3 dist/mp3
+cp /cygdrive/c/Python23/python.exe.manifest dist/iPodder.exe.manifest
+
+4. NSIS
+
+For 1.1.2, there were only minor changes, so we'll just copy and edit iPodder1.1.nsi
+
+Modify these for both install/uninstall:
+
+remove: install.py
+add: mp3/boing.mp3
+
+Also, update PRODUCT_VERSION and OutFile to 1.1.2.
+
+----------------
+1.1
+
+Crib sheet for running the HM NIS Edit wizard (http://hmne.sourceforge.net/)
+Accept defaults unless otherwise specified.
+
+Application name: iPodder
+Application version: 1.1
+Application publisher: iPodder Team
+Application website: http://ipodder.sourceforge.net/
+
+Setup file: iPodder1.1.exe
+License file: C:\iSpider\gpl.txt
+Application files:
+    -- Select all in C:\iSpider\dist, minus favorites.txt
+    -- Map these directories to identically named subdirectories of INSTDIR
+       -- images
+       -- icons_status
+       -- gui
+       -- win32
+    -- Add these files from C:\iSpider and put them in INSTDIR
+       -- readme.txt
+       -- todo.txt
+
+Set shortcuts to iPodder.exe
+Set post-install run file and readme file
+Add .onInit function that checks for previous version and gives upgrade instructions.
