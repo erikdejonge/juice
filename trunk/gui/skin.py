@@ -21,7 +21,7 @@ ATTS = [
         ('http://sportspodnet.com/opml/spn.opml', 'Sports Podcast Network'),
         ('http://podfeed.net/opml/podfeed.opml', 'Podfeed.net 20 Newest / All Categories'),
         ('http://podfeed.net/opml/podfeed_top_rated.opml', 'Podfeed.net Top Rated'),
-        ('http://todmaffin.com/radio.opml', 'Radio'),        
+        # now 404: # ('http://todmaffin.com/radio.opml', 'Radio'),        
         ('http://www.techpodcasts.com/dir/tech.opml', 'Techpodcasts.com'),        
         ('http://juicereceiver.sf.net/opml/juice.opml', 'Juice Team Directory'),
         ('http://www.podcastpickle.com/podPlayer/new/opmlGenres.php', 'PodcastPickle.com All Podcasts by Genre'),
