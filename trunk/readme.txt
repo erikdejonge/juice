@@ -4,21 +4,30 @@ Juice -- The cross-platform Podcast receiver
 http://juicereceiver.sourceforge.net/
 Version 2.2.1 -- December 21, 2005 
 
-New in 2.2.1
+New in 2.2.2
 ------------
 
-This patch fixes internationalisation issues identified and nailed down 
-by our users in the Juice Receiver support forum. I'd name names, but 
-the forum is down. Thijs Alberts also helped me spot a logging problem.
+* Fixed problems with Unicode in feeds and filenames. 
 
-This patch also includes Baris Atasoy's Turkish translation. Thanks,
-Baris! 
+* Made the log less verbose with respect to GUID matches on changed
+  enclosure names.
 
-This is my first attempt at a full Juice build for Windows. I've had to 
-tweak the installer configuration settings a little to accommodate my 
-environment, so please let me know of any problems. 
+* Added cleanup_sort_by_size option. 
 
-``- Garth``
+* 1523785: problem with new FeedBurner URLs.
+
+* 1524119: catch another kind of timeout. 
+
+* Better error handling for oneclick registration and episode playing. 
+
+* Removed Todd Maffin's OPML from the directory, as it's gone. Also added
+  PodLook. 
+
+* Fixed some problems with the updater. 
+
+* Updated release process.
+
+* Added Baris Atasoy's Turkish translation. 
 
 New in 2.2
 ----------
