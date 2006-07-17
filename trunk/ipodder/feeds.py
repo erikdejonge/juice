@@ -237,6 +237,24 @@ class Feed(object):
             log.info("Creating target directory %s", tg)
             os.makedirs(tg)
 
+    def _get_target_filename(url): 
+        """get_target_filename's complicated guts, presented for ease of 
+        testing."""
+        scheme, netloc, path, args, fragment = urlparse.urlsplit(url)
+        filename = re.split(r'\/|\\', path)[-1] # take the last fragment
+        if '%' in filename: # FeedBurner-embedded URL? 
+            url2 = urllib.unquote(filename)
+            scheme2, netloc2, path2, args2, fragment2 = urlparse.urlsplit(url2)
+            if args2 and not args: 
+                args = args2
+            filename = re.split(r'\/|\\', path2)[-1] 
+        if args:  # Merge them back in, in safe form
+            args = re.sub("[^A-Za-z0-9]","_",args)
+            base, ext = os.path.splitext(filename)
+            filename = "%s_%s%s" % (base, args, ext)
+        return filename
+    _get_target_filename = staticmethod(_get_target_filename)
+    
     def get_target_filename(self, enclosure): 
         """Calculate the target filename for an enclosure referred to
         by this feed.
@@ -247,18 +265,9 @@ class Feed(object):
             url = enclosure.url
         else: 
             url = enclosure
-
-        (url,args) = urllib.splitquery(url)
-        url = urllib.url2pathname(url) # decodes %20 etc
-        filename = url.split(os.sep)[-1] # get last path component of URL
+        
+        filename = self._get_target_filename(url)
         result = os.path.join(self.target_directory, filename)
-
-        if args:
-            #AG: we're going to do a little voodoo here to add url arguments
-            #back in while preserving the original file extension.
-            args = re.sub("[^A-Za-z0-9]","_",args)
-            (base,ext) = os.path.splitext(result)
-            result = "%s_%s%s" % (base,args,ext)
             
         # log.debug("%s -> %s", url, result)
         return result
