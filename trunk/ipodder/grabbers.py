@@ -549,6 +549,8 @@ class BasicGrabber(GenericGrabber):
                 errno, message = ex.args
                 if errno == 10054: 
                     reason = 'connection reset by peer'
+                elif errno == 10060: 
+                    reason = 'timeout'
                 else: 
                     trace = True
                     reason = 'socket.error %d: %s' % (errno, message)
