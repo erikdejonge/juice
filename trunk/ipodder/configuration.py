@@ -2,7 +2,7 @@
 # iPodder configuration module
 #
 
-__version__ =  '2.21' # float; 2.21 is better than 2.2 but worse than 2.3
+__version__ =  '2.22' # float; 2.21 is better than 2.2 but worse than 2.3
 
 import platform
 import os
