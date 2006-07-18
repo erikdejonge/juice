@@ -2,10 +2,15 @@ Juice -- The cross-platform Podcast receiver
 --------------------------------------------
 
 http://juicereceiver.sourceforge.net/
-Version 2.2.1 -- December 21, 2005 
+Version 2.2.2-a1 -- July 2006
 
-New in 2.2.2
-------------
+New since 2.2.2-a1
+------------------
+
+* 1463540: handle filenames with spaces (thanks, vladekk!)
+
+New in 2.2.2-a1
+---------------
 
 * Fixed problems with Unicode in feeds and filenames. 
 
@@ -14,7 +19,7 @@ New in 2.2.2
 
 * Added cleanup_sort_by_size option. 
 
-* 1523785: problem with new FeedBurner URLs.
+* 1523785: problem with new FeedBurner URLs (thanks, Andrew!).
 
 * 1524119: catch another kind of timeout. 
 

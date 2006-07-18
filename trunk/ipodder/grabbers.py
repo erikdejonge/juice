@@ -764,6 +764,8 @@ class BasicGrabber(GenericGrabber):
         # The other possibility is a file: URL. Let's pretend that won't 
         # happen for the time being. 
 
+
+
         # If we prefer offline (either because the BasicGrabber was 
         # initialised that way or it would be impolite to hit again so 
         # soon) AND the cached copy is complete, return a cache hit. 
@@ -995,6 +997,12 @@ class BasicGrabber(GenericGrabber):
         nocopy = False
         what = self.what
         destfilename = self.destfilename
+
+        # If it's an ftp:// or http:// URL, normalise `what`. 
+        if urlparse.urlsplit(what)[0].lower() in ['http', 'ftp']: 
+            if ' ' in what: 
+                self.debug("Re-wrote URL to eliminate spaces.")
+            self.what = what = urlnorm.normalize(what)
 
         self._consider_cache() # prepares atts according to cache
         fp, headers, seek = self._open()
@@ -1765,6 +1773,18 @@ if __name__ == '__main__':
             url = self.prep('rss.xml', content='This is a test')
             bg = BasicGrabber(url, self.tempify('rss.xml'))
             bg()
+
+        def test_spaces(self):
+            content = 'Hopefully, this spaces test will work.'
+            url = self.prep('filename%20with%20spaces.xml', content=content)
+            import urlparse, urllib2
+            scheme, netloc, path, query, fragment = urlparse.urlsplit(url)
+            path = urllib2.unquote(path)
+            url = urlparse.urlunsplit((scheme, netloc, path, query, fragment))
+            target = self.tempify('filename with spaces.xml')
+            bg = BasicGrabber(url, target)
+            bg()
+            assert file(target, 'rb').read() == content
 
         def test_grabmany(self):
             success = 0
