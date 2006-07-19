@@ -50,7 +50,7 @@ class Normalizer(object):
 class Feed(object): 
     "Represent a podcast feed."
 
-    def __init__(self, feeds, url, title='', sub_state='autopreview', manager_url=None, username='', password=''): 
+    def __init__(self, feeds, url, title='', sub_state='newly-subscribed', manager_url=None, username='', password=''): 
         "Initialise the feed."
         self.feeds = feeds
         self.id = feeds.nextfeedid()
@@ -123,8 +123,10 @@ class Feed(object):
             'password': '',
 
             # history options
-            'consider_legacy_history' : True #old feeds should check old history
-            
+            'consider_legacy_history' : True, #old feeds should check old history
+
+            # ways to tell when we added it
+            'added': time.localtime(),
             }
         for att, value in defaults.items(): 
             if not hasattr(self, att): 
@@ -722,6 +724,9 @@ class Feeds(feedmanager.ManagedFeeds):
         #Step 1: Build the XML document
         from xml.dom.minidom import getDOMImplementation
         import time
+        
+        log.info("Exporting feeds to OPML file: %s", filename)
+        
         impl = getDOMImplementation()
         doc = impl.createDocument(None,"opml",None)
         opml = doc.documentElement
@@ -849,6 +854,14 @@ if __name__ == '__main__':
             if key == "tmp_downloads":
                 #don't unpickle me unless Feeds has been instantiated.
                 continue
+            """
+            if key[:5] == 'feed#': 
+                feedid = int(key[5:])
+                if feedid >= 259: 
+                    log.info("Let's kill %s", key)
+                    del state[key]
+                    continue
+            """
             try: 
                 value = state[key]
             except KeyError, ex: 
@@ -890,3 +903,5 @@ if __name__ == '__main__':
             atts.sort()
             for att in atts: 
                 print "  %s = %s" % (att, repr(getattr(feed, att)))
+    if 1: 
+        feeds.write_to_opml_file('feeds.opml')
