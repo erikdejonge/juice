@@ -19,9 +19,9 @@ New in 2.2.2-a1
 
 * Added cleanup_sort_by_size option. 
 
-* 1523785: problem with new FeedBurner URLs (thanks, Andrew!).
+* Fixed 1523785: problem with new FeedBurner URLs.
 
-* 1524119: catch another kind of timeout. 
+* Fixed 1524119: catch another kind of timeout. 
 
 * Better error handling for oneclick registration and episode playing. 
 
@@ -33,6 +33,8 @@ New in 2.2.2-a1
 * Updated release process.
 
 * Added Baris Atasoy's Turkish translation. 
+
+* Fixed 1525166: Can't export non-ascii subscriptions to OPML.
 
 New in 2.2
 ----------
