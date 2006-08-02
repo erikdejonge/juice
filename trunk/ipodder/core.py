@@ -865,7 +865,7 @@ class iPodder:
         """Clean up old files according to the user's feed settings."""
         log.info("Starting auto cleanup.")
         contenders = [feedinfo for feedinfo in self.feeds 
-                        if feedinfo.cleanup_enabled]
+                        if feedinfo.sub_state == 'disabled']
         count = 0
         for feedinfo in contenders:
             log.debug("Autocleaning up feed: %s" % feedinfo.title)
@@ -895,10 +895,16 @@ class iPodder:
     def get_files_to_clean_up(self, feedinfo):
         """Determine which files for a given feed should be cleaned up."""
         min_age = feedinfo.cleanup_max_days
+        if feedinfo.sub_state == 'disabled': 
+            min_age = 0
 
-        player_finfos = self.config.player.playlist_fileinfos(
-                feedinfo.title,
-                max_days = min_age) 
+        try: 
+            player_finfos = self.config.player.playlist_fileinfos(
+                    feedinfo.title,
+                    max_days = min_age) 
+        except:
+            log.warn("Couldn't determine files for playlist %s", feedinfo)
+            player_finfos = []
             
         target_directory_finfos = feedinfo.getfiles(min_age) 
 
