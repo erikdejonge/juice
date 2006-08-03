@@ -865,11 +865,24 @@ class iPodder:
         """Clean up old files according to the user's feed settings."""
         log.info("Starting auto cleanup.")
         contenders = [feedinfo for feedinfo in self.feeds 
-                        if feedinfo.sub_state == 'disabled']
+                        if (feedinfo.cleanup_enabled 
+                            or feedinfo.sub_state == 'disabled')
+                        and feedinfo.dirname is not None]
         count = 0
         for feedinfo in contenders:
             log.debug("Autocleaning up feed: %s" % feedinfo.title)
             files = self.get_files_to_clean_up(feedinfo)
+            if feedinfo.sub_state == 'disabled': 
+                # check that it's safe
+                edt = set() # enabled directory targets
+                for f in self.feeds: 
+                    if f.sub_state == 'enabled' and f.dirname:
+                        edt.add(f.dirname.lower())
+                if feedinfo.dirname.lower() in edt: 
+                    log.warn("Disabled feed directory target %s is also "
+                             "used for enabled feeds; skipping final "
+                             "purge.", feedinfo.dirname)
+                    files = []
             if len(files):
                 log.info("Autocleanup: cleaning up %d files from %s.", 
                     len(files),
@@ -888,6 +901,10 @@ class iPodder:
                                  "player if it won't automatically do it for" \
                                  "you.")
                 self.remove_files(files)
+            if feedinfo.sub_state == 'disabled': 
+                log.warn("Clearing directory setting for disabled feed %s", feedinfo)
+                feedinfo.dirname = None
+                feedinfo.half_flush()
 
         log.info("Finished auto cleanup.")
         return count
