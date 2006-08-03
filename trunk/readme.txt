@@ -7,7 +7,11 @@ Version 2.2.2-a1 -- July 2006
 New since 2.2.2-a1
 ------------------
 
-* 1463540: handle filenames with spaces (thanks, vladekk!)
+* 1463540: Handle filenames with spaces (thanks, vladekk!)
+
+* 1530020: Automatic cleanup should delete downloads for disabled subs
+
+* 1534122: Cleanup code should respect feeds sharing directories
 
 New in 2.2.2-a1
 ---------------
