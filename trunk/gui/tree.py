@@ -3,7 +3,6 @@
 # Based on edj's amazing resizable OPMLOutliner code. 
 # Heavily mutated by gtk. 
 
-from wxPython.wx import *
 import types
 from xml.sax import make_parser, handler
 import wx
@@ -107,10 +106,10 @@ class TreeNode:
         
         if len(node):
             image = opmltree.fldridx
-            opmltree.SetItemHasChildren(id, TRUE)
+            opmltree.SetItemHasChildren(id, True)
         else: 
             image = opmltree.textidx
-            opmltree.SetItemHasChildren(id, FALSE)
+            opmltree.SetItemHasChildren(id, False)
 
         if node.type in ['link','rss']: 
             if self.opmltree.IsOpmlUrl(node.url): 
@@ -118,11 +117,11 @@ class TreeNode:
                 if self.scanned: 
                     colour = DIRECTORY_LINK_SCANNED
                     if len(node): 
-                        opmltree.SetItemHasChildren(id, TRUE)
+                        opmltree.SetItemHasChildren(id, True)
                     else: 
-                        opmltree.SetItemHasChildren(id, FALSE)
+                        opmltree.SetItemHasChildren(id, False)
                 else: 
-                    opmltree.SetItemHasChildren(id, TRUE)
+                    opmltree.SetItemHasChildren(id, True)
                     colour = DIRECTORY_LINK_UNSCANNED
             else: 
                 image = opmltree.remoteidx
@@ -246,7 +245,7 @@ class TreeNode:
                         self.node.text = head.title
                         return
                         
-class OPMLTree(GenericDispatch.GenericDispatchMixin, wxTreeCtrl):
+class OPMLTree(GenericDispatch.GenericDispatchMixin, wx.TreeCtrl):
     '''Lazy Tree is a simple "Lazy Evaluation" tree,
     that is, it only adds items to the tree view when
     they are needed.'''
@@ -265,9 +264,9 @@ class OPMLTree(GenericDispatch.GenericDispatchMixin, wxTreeCtrl):
     def Init(self, roots, feeds, state): 
         self.feeds = feeds
         self.state = state
-        EVT_TREE_ITEM_EXPANDING(self, self.GetId(), self.OnExpandNode)
-        EVT_TREE_SEL_CHANGED(self, self.GetId(), self.OnSelectNode)
-        EVT_TREE_ITEM_ACTIVATED(self, self.GetId(), self.OnActivateNode)
+        wx.EVT_TREE_ITEM_EXPANDING(self, self.GetId(), self.OnExpandNode)
+        wx.EVT_TREE_SEL_CHANGED(self, self.GetId(), self.OnSelectNode)
+        wx.EVT_TREE_ITEM_ACTIVATED(self, self.GetId(), self.OnActivateNode)
         GenericDispatch.EVT_DISPATCH(self, self.OnDispatchEvent)
 
         isz = (16,16)
@@ -413,7 +412,7 @@ class OPMLTree(GenericDispatch.GenericDispatchMixin, wxTreeCtrl):
         self.root.append(outlines.Link(title, url=url))
         self.feeds.config.podcast_directory_roots.append((url,title))
         
-class TestApplication (wxPySimpleApp):
+class TestApplication(wx.PySimpleApp):
     def __init__(self, feeds):
         self.feeds = feeds
         wxPySimpleApp.__init__(self)
