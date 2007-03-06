@@ -691,6 +691,7 @@ class iPodder:
         iscomplete = False
 
         enc = encinfo.url
+        log.debug("encinfo.url=%s", repr(enc))
         feed = encinfo.feed
         feed.mkdir()
 
@@ -874,11 +875,11 @@ class iPodder:
             files = self.get_files_to_clean_up(feedinfo)
             if feedinfo.sub_state == 'disabled': 
                 # check that it's safe
-                edt = set() # enabled directory targets
+                edt = {} # enabled directory targets
                 for f in self.feeds: 
                     if f.sub_state == 'enabled' and f.dirname:
-                        edt.add(f.dirname.lower())
-                if feedinfo.dirname.lower() in edt: 
+                        edt[f.dirname.lower()] = True
+                if feedinfo.dirname.lower() in edt.keys(): 
                     log.warn("Disabled feed directory target %s is also "
                              "used for enabled feeds; skipping final "
                              "purge.", feedinfo.dirname)
