@@ -2940,6 +2940,17 @@
                             <checked>1</checked>
                           </object>
                         </object>
+                        <object class="sizeritem">
+                          <object class="wxStaticText">
+                            <label></label>
+                          </object>
+                        </object>
+                        <object class="sizeritem">
+                          <object class="wxCheckBox" name="FEEDWINAUTODOWNLOAD">
+                            <label>XRC - Automatically download new episodes</label>
+                            <checked>1</checked>
+                          </object>
+                        </object>
                       </object>
                     </object>
                     <object class="spacer">

@@ -367,6 +367,7 @@ def AddStrings(strtable):
     add("str_goto_subs", u"Go to subscriptions tab to see this feed's episodes")
     add("str_feed_save", u"Save")
     add("str_feed_cancel", u"Cancel")
+    add("str_feed_autodl", u"Automatically download new episodes")
 
 
 

@@ -216,6 +216,9 @@ class FeedScanningJob(engine.Job):
         skip_list = None
         default_status = 'to_download'
 
+        # if feed is not marked to always download, use skip mode
+        skip_mode = not feedinfo.autofetch_enclosures
+
         for entry in feed.entries:
             if self.abort: 
                 log.debug("Asked to abort whilst iterating feed entries.")
