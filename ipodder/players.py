@@ -332,6 +332,8 @@ class iTunesForDarwin(Player):
                 }
         execute_applescript(script)
 
+# makepy output for iTunes 7: C:\Python24\lib\site-packages\win32com\gen_py\9E93C96F-CF0D-43F6-8BA8-B807A3370712x0x1x7.py
+
 class iTunesForWindows(Player): 
     """Player interface to iTunes on Windows."""
 
