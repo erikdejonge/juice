@@ -197,6 +197,8 @@ def encode(msg, encoding=None, replace=True, with=None):
         msg = msg.encode(encoding, replace)
     else: 
         msg = msg.encode(encoding) # might fail
+    # TODO: come up with a version that doesn't screw up strings 
+    # that genuinely contain question marks. 
     if with is not None: 
         msg = msg.replace('?', with)
     return msg
