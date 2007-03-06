@@ -130,6 +130,7 @@ class FeedWindow(wx.Dialog):
         self.ValueControl("FEEDWINCLEANUPDAYSLBL", "str_days_old")
         self.ValueControl("LBL_FEEDWINTITLE", "str_title")
         self.ValueControl("LBL_FEEDWINURL", "str_url")
+        self.ValueControl("FEEDWINAUTODOWNLOAD", "str_feed_autodl")
         self.ValueControl("LBL_FEEDWINUSERNAME", "str_username")
         self.ValueControl("LBL_FEEDWINPASSWORD", "str_password")
         self.notebook.SetPageText(0, self._("str_general"))
@@ -140,6 +141,7 @@ class FeedWindow(wx.Dialog):
         self.ipodder = ipodder
         self.feedwintitle = xrc.XRCCTRL(self,"FEEDWINTITLE")
         self.feedwinurl = xrc.XRCCTRL(self,"FEEDWINURL")
+        self.feedwinautodl = xrc.XRCCTRL(self,"FEEDWINAUTODOWNLOAD")
         self.feedwinusername = xrc.XRCCTRL(self,"FEEDWINUSERNAME")
         self.feedwinpassword = xrc.XRCCTRL(self,"FEEDWINPASSWORD")
         self.feedwingotosubs = xrc.XRCCTRL(self,"FEEDWINGOTOSUBS")
@@ -170,6 +172,7 @@ class FeedWindow(wx.Dialog):
             self.SetLabel(self._("str_edit_feed"))
             self.feedinfo = feedinfo
             self.feedwinurl.SetValue(feedinfo.url)
+            self.feedwinautodl.SetValue(feedinfo.autofetch_enclosures)
             self.feedwintitle.SetValue(feedinfo.title)
             self.feedwinusername.SetValue(feedinfo.username)
             self.feedwinpassword.SetValue(feedinfo.password)
@@ -180,6 +183,7 @@ class FeedWindow(wx.Dialog):
             self.feedinfo = None
             self.SetLabel(self._("str_add_feed_dialog"))
             self.feedwinurl.SetValue(newfeed)
+            self.feedwinautodl.SetValue(True)
             self.feedwintitle.SetValue("")
             self.feedwinusername.SetValue("")
             self.feedwinpassword.SetValue("")
@@ -195,6 +199,7 @@ class FeedWindow(wx.Dialog):
 
     def OnSaveSettings(self,event):
         url = self.feedwinurl.GetValue().strip()
+        autodl = self.feedwinautodl.GetValue()
         title = self.feedwintitle.GetValue().strip()
         username = self.feedwinusername.GetValue().strip()
         password = self.feedwinpassword.GetValue().strip()
@@ -216,6 +221,7 @@ class FeedWindow(wx.Dialog):
         
         if self.feedinfo and ['disabled','unsubscribed'].count(self.feedinfo.sub_state) == 0:
             self.feedinfo.url = url
+            self.feedinfo.autofetch_enclosures = autodl
             self.feedinfo.username = username
             self.feedinfo.password = password
             self.feedinfo.cleanup_enabled = cleanup_enabled

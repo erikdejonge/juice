@@ -62,6 +62,7 @@ class Feed(object):
         self.username = username
         self.password = password
         self.consider_legacy_history = False
+        self.autofetch_enclosures = True
         self.fix_state(noisy=False)
     
     def fix_state(self, noisy=True):
@@ -127,6 +128,9 @@ class Feed(object):
 
             # ways to tell when we added it
             'added': time.localtime(),
+
+            # whether or not to download enclosures automatically
+            'autofetch_enclosures': True,
             }
         for att, value in defaults.items(): 
             if not hasattr(self, att): 
