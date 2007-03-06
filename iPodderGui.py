@@ -1862,14 +1862,18 @@ class iPodderGui(wx.App,
             dispatch(self.frame.SetStatusText, message)
             dispatch(self.progressBar.SetValue, 0) 
             
-        # Look for hook methods and hook them. 
+        # Look for hook methods and hook them.
+        # Method changed to satisfy newer versions of wxPython.
+        # I'm not sure if dir() will find class methods in the
+        # same way inspect.getmembers() did, though.
         prefix = 'hook_'
-        for att, method in inspect.getmembers(self, inspect.ismethod): 
-            if not att.startswith(prefix): 
-                continue
-            hookname = att[len(prefix):].replace('_', '-')
-            log.debug("Hooking %s with %s", hookname, repr(method))
-            hooks.add(hookname, method)
+        for att in dir(self):
+            if att.startswith(prefix) \
+            and inspect.ismethod(getattr(self, att)):
+                method = getattr(self, att)
+                hookname = att[len(prefix):].replace('_', '-')
+                log.debug("Hooking %s with %s", hookname, repr(method))
+                hooks.add(hookname, method)
             
         # Add more hooks manually. 
         hooks.add('scan-enclosures-count',  DownloadCounter(self, 
@@ -2136,7 +2140,7 @@ class iPodderGui(wx.App,
         return -1
     
     def OnHide(self, event):
-	if self.frame.IsShown():
+        if self.frame.IsShown():
             self.ShowFrame(0)
         else:
             self.ShowFrame(1)
@@ -3668,3 +3672,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
