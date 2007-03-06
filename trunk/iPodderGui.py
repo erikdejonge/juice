@@ -2380,7 +2380,11 @@ class iPodderGui(wx.App,
         count = 0
         for enclosure in enclosures:
             url = enclosure.url
-            index = self.episodes.InsertStringItem(self.episodes.GetItemCount(),enclosure.item_title)
+            try: 
+                index = self.episodes.InsertStringItem(self.episodes.GetItemCount(),enclosure.item_title)
+            except UnicodeDecodeError: 
+                log.warning("episodes.InsertStringItem failed for: %s", repr(enclosure.item_title))
+                index = self.episodes.InsertStringItem(self.episodes.GetItemCount(), repr(enclosure.item_title))
             id = wx.NewId()
             self.episodesdict[id] = enclosure
             self.episodes.SetItemData(index,id)
@@ -3192,7 +3196,11 @@ class iPodderGui(wx.App,
                 #and slower, so we skip it if we can.
                 index = self.DownloadTabIndexFromEncinfo(encinfo)
             if index == -1:
-                index = self.downloads.InsertStringItem(0,encinfo.item_title)
+                try: 
+                    index = self.downloads.InsertStringItem(0, encinfo.item_title)
+                except UnicodeDecodeError: 
+                    log.warn("downloads.InsertStringItem failed for: %s", repr(encinfo.item_title))
+                    index = self.downloads.InsertStringItem(0, repr(encinfo.item_title))
             self.downloads.SetStringItem(index,1,self._("str_dl_state_" + encinfo.status))
             self.downloads.SetStringItem(index,2,encinfo.GetStatusDownloadSpeed())
             if encinfo.download_completed:
