@@ -4,9 +4,9 @@ import py2app
 import sys
 sys.path.append("/sw/lib/python2.3/lib-dynload")
 
-NAME = "iPodder"
-DESCRIPTION = "iPodder, the cross-platform podcast receiver."
-VERSION = '2.2beta1'
+NAME = "Juice"
+DESCRIPTION = "Juice, the cross-platform podcast receiver."
+VERSION = '2.2.3'
 ICON = "iPodder.icns"
 
 DATA_FILES  = [
