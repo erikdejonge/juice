@@ -2,7 +2,7 @@
 # iPodder configuration module
 #
 
-__version__ =  '2.22' # float; 2.21 is better than 2.2 but worse than 2.3
+__version__ =  '2.23' # float; 2.21 is better than 2.2 but worse than 2.3
 
 import platform
 import os
@@ -329,6 +329,12 @@ class Configuration(object):
             
         if options.config_file: 
             config = self._loadconfig(options.config_file)
+            if config.has_key('appdata_dir'):
+                appdata = config['appdata_dir']
+            if config.has_key('gui_dir'):
+                gui = config['gui_dir']
+            if config.has_key('download_dir'):
+                downloads = config['download_dir']
         else: 
             config = self._findconfig(paths)
         if config is None: 
