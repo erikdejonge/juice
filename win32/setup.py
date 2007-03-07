@@ -3,13 +3,14 @@ import py2exe
 import os
 
 kwargs = dict(
-    version = "2.2",
+    version = "2.2.3",
     description = "Juice",
     name = "Juice",
 
     # targets to build
     windows = [ {
-        "script": "gui.py", 
+        "script": "gui.py",
+        "dest_base": "Juice",
         "icon_resources": [
             (1, "icons_status/application.ico"),
             ] 
@@ -32,8 +33,8 @@ kwargs = dict(
         },
         
     data_files = [
-        (".", ["favorites.txt",
-               "gpl.txt",
+        (".", [ # "favorites.txt",
+                # "gpl.txt",
                "readme.txt"]),
         ("gui", ["gui/iPodder.xrc",]),
         ("win32", ["win32/iPodder.ico",]),
