@@ -10,6 +10,7 @@ import urlparse
 import urllib
 import re
 import time
+from datetime import datetime
 import misc
 
 from ipodder.contrib import bloglines
@@ -247,14 +248,16 @@ class Feed(object):
         """get_target_filename's complicated guts, presented for ease of 
         testing."""
         scheme, netloc, path, args, fragment = urlparse.urlsplit(url)
-        filename = re.split(r'\/|\\', path)[-1] # take the last fragment
+        # force to unicode here, otherwise unquote and friends can go bad
+        filename = unicode(re.split(r'\/|\\', path)[-1]) # take the last fragment
         if '%' in filename: # FeedBurner-embedded URL? 
-            url2 = urllib.unquote(filename)
-            scheme2, netloc2, path2, args2, fragment2 = urlparse.urlsplit(url2)
-            if args2 and not args: 
-                args = args2
-            filename = re.split(r'\/|\\', path2)[-1] 
+            filename = urllib.unquote(filename)
+        # TODO: note that this does not guarantee that filename contains a
+        # TODO: string suitable for use in the local filesystem.
         if args:  # Merge them back in, in safe form
+            args = unicode(args)
+            if '%' in args:
+                args = urllib.unquote(args)
             args = re.sub("[^A-Za-z0-9]","_",args)
             base, ext = os.path.splitext(filename)
             filename = "%s_%s%s" % (base, args, ext)
@@ -740,7 +743,8 @@ class Feeds(feedmanager.ManagedFeeds):
         title.appendChild(doc.createTextNode("iPodder Exported Subscriptions"))
         head.appendChild(title)
         dc = doc.createElement("dateCreated")
-        dc.appendChild(doc.createTextNode(time.strftime('%a, %d %b %Y %T %z',time.localtime())))
+        curtime = datetime.now()
+        dc.appendChild(doc.createTextNode(misc.rfc822date(curtime,misc.localTimezone())))
         head.appendChild(dc)
         opml.appendChild(head)
         body = doc.createElement("body")
