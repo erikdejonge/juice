@@ -9,19 +9,42 @@ from ipodder import misc
 
 log = logging.getLogger('Juice')
 
+#TODO: use (or try) backwards-compatible keys on reading, but on
+# use encoded keys when writing. (Requires separate methods,
+# and changes to callers using mkXXXkey methods.)
+
 def mkurlkey(url):
-    urlhash = md5.md5(url).hexdigest()
+    # Note: this is done this way for backwards compatibility
+    # V2.2 and earlier did not encode, which caused problems
+    # in non-English locales
+    try:
+        urlhash = md5.md5(url).hexdigest()
+    except UnicodeError, ue:
+        urlhash = md5.md5(misc.encode(url,'utf8')).hexdigest()
     return "url:%s" % urlhash
 
 def mkguidkey(guid, index):
-    guidhash = md5.md5(guid).hexdigest()
+    # Note: this is done this way for backwards compatibility
+    # V2.2 and earlier did not encode, which caused problems
+    # in non-English locales
+    try:
+        guidhash = md5.md5(guid).hexdigest()
+    except UnicodeError, ue:
+        guidhash = md5.md5(misc.encode(guid,'utf8')).hexdigest()
+
     return "guid:%d:%s" % (index,guidhash)
 
 def mkenclosurekey(enclosure_id):
     return 'enclosure:%d' % enclosure_id
 
 def mkfilenamekey(filename):
-    filenamehash = md5.md5(misc.encode(filename, encoding='ascii', replace='xmlcharrefreplace')).hexdigest()
+    # Note: this is done this way for backwards compatibility
+    # V2.2 and earlier did not encode universally, which caused problems
+    # in non-English locales.
+    try:
+        filenamehash = md5.md5(misc.encode(filename, 'ascii', replace='xmlcharrefreplace')).hexdigest()
+    except UnicodeError, ue:
+        filenamehash = md5.md5(misc.encode(filename, 'utf8', replace='xmlcharrefreplace')).hexdigest()
     return 'filename:%s' % filenamehash    
 
 def mkfeedkey(feed_id):
