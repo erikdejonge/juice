@@ -5,6 +5,7 @@
 import os
 import logging
 import time
+import datetime
 import stat
 from sgmllib import SGMLParser
 import locale
@@ -16,6 +17,36 @@ except ImportError:
     
 log = logging.getLogger('Juice')
 
+def rfc822date(dt,tz):
+    """convert a datetime into an RFC 822 formatted date
+
+    Input date is assumed to be GMT if tz is None.
+    To get the local timezone, call localTimezone().
+    tz should be a string preferably representing a GMT offset (+dddd or -dddd)
+    """
+    # Looks like:
+    #   Sat, 07 Sep 2002 00:00:01 GMT
+    # Can't use strftime because that's locale dependent
+    #
+    # Isn't there a standard way to do this for Python?  The
+    # rfc822 and email.Utils modules assume a timestamp.  The
+    # following is based on the rfc822 module.
+    if tz == None:
+        tz = '+0000'
+        
+    return "%s, %02d %s %04d %02d:%02d:%02d %s" % (
+            ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"][dt.weekday()],
+            dt.day,
+            ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+             "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][dt.month-1],
+            dt.year, dt.hour, dt.minute, dt.second, tz)
+
+def localTimezone():
+    curtz = time.timezone # tz offset in seconds
+    curtz = int(curtz/60) # tz offset in minutes
+    curtz = "%+03d%02d" % (int(curtz/-60) , int(curtz%60)) # convert to +HHMM
+    return curtz
+    
 def freespace(path): 
     "Return free disk space in MB for the requested path; -1 if unknown."
     if win32api is not None: 
@@ -176,7 +207,7 @@ def url_pcast_file_extract(path):
 
 locale_preferred_encoding = locale.getpreferredencoding()
 
-def encode(msg, encoding=None, replace=True, with=None): 
+def encode(msg, encoding=None, replace=True, replacement=None): 
     """Encode a string to ascii.
     
     msg      -- the string to encode
@@ -186,7 +217,7 @@ def encode(msg, encoding=None, replace=True, with=None):
                 
     replace  -- replace un-encodable characters; default=True
     
-    with     -- what to replace them with; default='?'
+    replacement -- what to replace them with; default='?'
     """
                 
     if encoding is None:
@@ -199,8 +230,8 @@ def encode(msg, encoding=None, replace=True, with=None):
         msg = msg.encode(encoding) # might fail
     # TODO: come up with a version that doesn't screw up strings 
     # that genuinely contain question marks. 
-    if with is not None: 
-        msg = msg.replace('?', with)
+    if replacement is not None: 
+        msg = msg.replace('?', replacement)
     return msg
 
 if __name__ == '__main__': 
