@@ -38,8 +38,9 @@ This is _really_ useful in multihreaded WX applications
 
 import sys
 
-from wxPython.wx import *
-from wxPython.lib import newevent
+import wx
+#from wxPython.wx import *
+from wx.lib import newevent
 
 DispatchEvent, EVT_DISPATCH = newevent.NewEvent()
 
@@ -51,5 +52,5 @@ class GenericDispatchMixin:
 		event.method(*event.arguments)
 
 	def ThreadSafeDispatch(self, method, *arguments):
-		wxPostEvent(self, DispatchEvent(method = method, arguments = arguments))
+		wx.PostEvent(self, DispatchEvent(method = method, arguments = arguments))
 
