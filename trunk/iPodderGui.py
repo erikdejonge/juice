@@ -2730,8 +2730,9 @@ class iPodderGui(wx.App,
             command = self.preferences.dlCommand.GetValue().strip()
             if not command:
                 return
-            command = command.replace("%f",destfile)
-            command = command.replace("%n",encinfo.feed.title)
+            command = command.replace("%f", destfile)
+            command = command.replace("%n", encinfo.feed.title)
+            command = command.replace("%e", encinfo.item_title)
             status = os.system(command)
             if status:
                 log.info("There was an error running this command: %s" % command)
