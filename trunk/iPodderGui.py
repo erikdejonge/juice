@@ -34,7 +34,6 @@ from  localization import LanguageModule
 from localization import catalog
 from xml.dom.minidom import parseString
 
-from   wxPython.wx import *
 import gui.iPodderWindows
 
 # Parts of iPodder
@@ -1022,7 +1021,11 @@ class iPodderGui(wx.App,
 
         res = xrc.XmlResource(self.ipodder.config.guiresource_file)
 
-
+        # ascending or descending sorting order, changes at each click
+        self.sorting_order = {}
+        # sorting according to this column's values
+        self.sorting_col = {}
+  
         #put here all elements
         self.frame = res.LoadFrame(None,"TOPWINDOW")
         self.ipodder.m_gui = self
@@ -1162,6 +1165,10 @@ class iPodderGui(wx.App,
         self.Bind(wx.EVT_LIST_ITEM_RIGHT_CLICK, self.OnEpisodesListRClick, self.episodes)
         self.Bind(wx.EVT_CHAR, self.OnEpisodesListChar, self.episodes)
         wx.EVT_LEFT_DOWN(self.episodes, self.OnEpisodesListLeftDown)
+        tID = xrc.XRCID("EPISODES")
+        wx.EVT_LIST_COL_CLICK(self.episodes, tID, self.OnEpisodesColClick)
+        self.sorting_order['episodes'] = 1
+        self.sorting_col['episodes'] = -1
 
         if wx.Platform == '__WXMAC__':
             wx.EVT_MOTION(self.toolbarSubscr,self.OnToolMotionMac)
@@ -1184,6 +1191,10 @@ class iPodderGui(wx.App,
         self.Bind(wx.EVT_LIST_ITEM_SELECTED,self.OnDownloadsTabSel,self.downloads)
         self.Bind(wx.EVT_LIST_ITEM_DESELECTED,self.OnDownloadsTabDesel,self.downloads)
         self.Bind(wx.EVT_CHAR, self.OnDownloadsChar, self.downloads)
+        tID = xrc.XRCID("DOWNLOADSCTRL")
+        wx.EVT_LIST_COL_CLICK(self.downloads, tID, self.OnDownloadsColClick)
+        self.sorting_order['downloads'] = 1
+        self.sorting_col['downloads'] = -1
 
         #wiring: directory
         wx.EVT_MENU(self,xrc.XRCID("TOOLOPENDIRALL"), self.OnDirectoryExpandAll)
@@ -1642,6 +1653,29 @@ class iPodderGui(wx.App,
         for l in url:
             rs += str(l)
         return rs    
+
+    # helper functions for sorting tables
+
+    def ListColumnSorter(self, key1, key2):
+        index1 = self.sorting_list.FindItemData(-1,key1)
+        index2 = self.sorting_list.FindItemData(-1,key2)
+        value1 = self.sorting_list.GetItem(index1,self.sorting_col[self.sorting_type]).GetText()
+        value2 = self.sorting_list.GetItem(index2,self.sorting_col[self.sorting_type]).GetText()
+        if value1 == value2:
+            return 0
+        elif value1 < value2:
+            return -self.sorting_order[self.sorting_type]
+        else:
+            return self.sorting_order[self.sorting_type]
+
+    def OnColClick(self,event,listType,list):
+        self.sorting_list = list
+        self.sorting_type = listType
+        if self.sorting_col[listType] == event.m_col:
+            # click a second time on the same column => invert the sorting order
+            self.sorting_order[listType] = (-1) * self.sorting_order[listType] 
+        self.sorting_col[listType] = event.m_col
+        list.SortItems(self.ListColumnSorter)
 
     def GetOPML(self,opml_url):
         if opml_url=="":
@@ -2952,6 +2986,9 @@ class iPodderGui(wx.App,
             self.episodes.SetStringItem(index,1,self._("str_dl_state_%s" % encinfo.status))
             self.episodes.SetItemImage(index,self.box_unchecked_idx,self.box_unchecked_idx)
             
+    def OnEpisodesColClick(self,event):
+        self.OnColClick(event,'episodes',self.episodes)
+
     def OnEpisodesListRClick(self,event):
         if event.m_itemIndex != -1:
             self.LaunchEpisodesRClickMenu(event.m_itemIndex)
@@ -3263,6 +3300,10 @@ class iPodderGui(wx.App,
             log.debug("Deleting entries at these indexes: %s" % str(items_to_del))
             self.ClearHistoryItemsByIndex(items_to_del)
             
+
+    def OnDownloadsColClick(self,event):
+        self.OnColClick(event,'downloads',self.downloads)
+
     def OnDownloadsChar(self,event):
         if event.GetKeyCode() == wx.WXK_F10 and event.ShiftDown():
             self.LaunchDownloadsRClickMenu(event)
