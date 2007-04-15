@@ -30,6 +30,7 @@ import inspect
 import os.path
 import webbrowser
 import StringIO
+import locale
 from  localization import LanguageModule
 from localization import catalog
 from xml.dom.minidom import parseString
@@ -2764,12 +2765,24 @@ class iPodderGui(wx.App,
             command = self.preferences.dlCommand.GetValue().strip()
             if not command:
                 return
+            # make sure command is and remains a unicode value
+            # TODO should we by trying encode here?
+            command = unicode(command)
             command = command.replace("%f", destfile)
             command = command.replace("%n", encinfo.feed.title)
             command = command.replace("%e", encinfo.item_title)
-            status = os.system(command)
+            status = None
+            try:
+                log.debug("Post-download command: %s",command)
+                # encode to OS default encoding (Windows MBCS e.g.)
+                # so that os.system won't choke
+                command = misc.encode(command)
+                status = os.system(command)
+            except Exception, e:
+                status = e
             if status:
                 log.info("There was an error running this command: %s" % command)
+                log.info("Status from command: %s",str(status))
 
         if encinfo is not None: 
             self.ThreadSafeDispatch(self.DownloadTabLog, encinfo)
@@ -3636,6 +3649,8 @@ def asctimeOrNone(dt):
         return time.asctime(dt)
 
 def main():
+    # Make sure locale is set to user's system preference
+    locale.setlocale(locale.LC_ALL,'')
     # Initialise the logging module and configure it for our console logging.
     # I'll factor this out soon so it's less convoluted.
     # There's probably a better way of doing this with the Gui version, 
