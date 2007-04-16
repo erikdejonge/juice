@@ -217,7 +217,11 @@ class FeedScanningJob(engine.Job):
         default_status = 'to_download'
 
         # if feed is not marked to always download, use skip mode
-        skip_mode = not feedinfo.autofetch_enclosures
+        # (unless it's a user-requested update on this feed)
+        if self.catchup == 0:
+            skip_mode = not feedinfo.autofetch_enclosures
+        else:
+            skip_mode = False
 
         for entry in feed.entries:
             if self.abort: 
@@ -718,7 +722,7 @@ class iPodder:
         destFile = feed.get_target_filename(enc)
         partialFile = destFile + '.partial'
         try:
-            log.info("Downloading %s", enc)
+            log.info("Downloading %s", unicode(enc))
             encinfo.download_started = time.localtime()
             self.m_download_file = filename
             bg = grabbers.BasicGrabber(enc, partialFile, state=self.state)
@@ -952,8 +956,27 @@ class iPodder:
                     log.exception("Unexpected IO error deleting file %s", file)
 
         self.history.remove_files(files)
+
+    def startdl(self, progress, enclosures):
+        # TODO: this and start can conflict on enclosure list
+        self.m_enclosures = enclosures
+        self.running_grabbers = []
+        self.ui_progress = progress
+        self.init_proxy_config()
+        try: 
+            try:
+                changes = self.download_enclosures()
+                changes += self.autocleanup()
+                if changes > 0: 
+                    self.syncdevices()
+                self.history.clean_history(self.config.clean_history_max_age)
+            except: 
+                log.exception("Caught exception while downloading enclosures")
+        finally: 
+            self.stop()
         
     def start(self, progress, mask=None, catchup=0):
+        # TODO: this and startdl can conflict on enclosure list
         self.running_grabbers = []
         self.ui_progress = progress
 
@@ -971,7 +994,7 @@ class iPodder:
                     self.syncdevices()
                 self.history.clean_history(self.config.clean_history_max_age)
             except: 
-                log.exception("Uncaught exception!")
+                log.exception("Caught exception while updating feeds")
         finally: 
             self.stop()
 

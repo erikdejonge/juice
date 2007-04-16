@@ -214,6 +214,22 @@ class iPodderFeedDownload(threading.Thread):
         fsj.run()
         self.caller.FeedDownloadThreadComplete(self,enclosures,self.feedinfo)    
     
+class iPodderDownloadEnclosures(threading.Thread):
+    def __init__(self,caller,enclosures):
+        threading.Thread.__init__(self)
+        self.caller = caller
+        self.enclosures = enclosures
+    def run(self):
+        if "Win" in platform.system():
+            import pythoncom
+            pythoncom.CoInitialize()
+
+        self.caller.ipodder.startdl(self.caller.progress,self.enclosures)
+        self.caller.DownloadThreadComplete(self,None)
+        
+        if "Win" in platform.system():
+            pythoncom.CoUninitialize()
+
 class iPodderDownload(threading.Thread):
     def __init__(self,caller,mask=None,catchup=0):
         threading.Thread.__init__(self)
@@ -550,6 +566,7 @@ class IPG_Menu:
         wx.EVT_MENU(self,xrc.XRCID("MENUBARREMOVEFEED"), self.OnToggleChecked)
         wx.EVT_MENU(self,xrc.XRCID("MENUBARSELECTALL"), self.OnMenuSelectAll)
         wx.EVT_MENU(self,xrc.XRCID("MENUBARCHECKSELECTED"), self.OnCheckSelected)
+        wx.EVT_MENU(self,xrc.XRCID("MENUBARDOWNLOADSELECTED"), self.OnDownloadSelected)
 
         #Edit menu
         wx.EVT_NOTEBOOK_PAGE_CHANGED(self,xrc.XRCID("NOTEBOOK"), self.OnNotebookPageChanged)
@@ -801,6 +818,7 @@ class iPodderGui(wx.App,
         self.menubar.FindItemById(xrc.XRCID("MENUBARCATCHUP")).SetAccel(tmp_accell)   
 
         self.menubar.FindItemById(xrc.XRCID("MENUBARCHECKSELECTED")).SetText(self.m_stringtable.GetText(self.m_currentlanguage, "str_check_selected"))
+        self.menubar.FindItemById(xrc.XRCID("MENUBARDOWNLOADSELECTED")).SetText(self.m_stringtable.GetText(self.m_currentlanguage, "str_dl_selected"))
 
         tmp_accell = self.menubar.FindItemById(xrc.XRCID("MENUBARREMOVEFEED")).GetAccel()
         self.menubar.FindItemById(xrc.XRCID("MENUBARREMOVEFEED")).SetText(self.m_stringtable.GetText(self.m_currentlanguage, "str_remove_selected"))        
@@ -1136,6 +1154,7 @@ class iPodderGui(wx.App,
         self.toolCancelHistSelId = xrc.XRCID("TOOLHISTCANCELSELECTED")
         self.menucheckall = self.menubar.FindItemById(xrc.XRCID("MENUBARCHECKALL"))
         self.menucheckselected = self.menubar.FindItemById(xrc.XRCID("MENUBARCHECKSELECTED"))
+        self.menudownloadselected = self.menubar.FindItemById(xrc.XRCID("MENUBARDOWNLOADSELECTED"))
         self.menuremovefeed = self.menubar.FindItemById(xrc.XRCID("MENUBARREMOVEFEED"))
         self.menufeedproperties = self.menubar.FindItemById(xrc.XRCID("MENUBARFEEDPROPERTIES"))
         self.menucatchup = self.menubar.FindItemById(xrc.XRCID("MENUBARCATCHUP"))
@@ -2123,6 +2142,7 @@ class iPodderGui(wx.App,
         self.toolbarSubscr.EnableTool(self.toolToggleCheckedId,False)
         self.toolbarSubscr.EnableTool(self.toolFeedPropertiesId,False)
         self.menucheckselected.Enable(False)
+        self.menudownloadselected.Enable(False)
         self.menuremovefeed.Enable(False)
         self.menufeedproperties.Enable(False)
         
@@ -2453,6 +2473,7 @@ class iPodderGui(wx.App,
         if self.notebook.GetSelection() == SUBSCRIPTIONS_INDEX \
            and self.frame.FindFocus() not in [self.feedslist,self.episodes]:
             self.feedslist.SetFocus()
+        self.updateEpisodeUI()
 
     def DownloadThreadComplete(self,dl,mask):
         self.ThreadSafeDispatch(self.PostDownloadUpdate,dl,mask)
@@ -2851,6 +2872,58 @@ class iPodderGui(wx.App,
            event.iPodderCheckSelectedMask = mask
            self.OnCheckNow(event)
 
+    def OnDownloadSelected(self, event):
+        log.debug("Download selected enclosures")
+
+        enclosures = []
+        todl_count = 0
+        for encinfo in self.episodesdict.itervalues():
+            if (encinfo.status == 'to_download'):
+                enclosures.append(encinfo)
+                todl_count += 1
+        
+        if (self.feed_episode_menu_info and not self.feed_episode_menu_info in enclosures):
+            # force download of item we clicked on
+            encinfo = self.feed_episode_menu_info
+            self.feed_episode_menu_info = None
+            encinfo.status = 'to_download'
+            encinfo.filename = None
+            encinfo.marked = True
+            self.ipodder.history.save_encinfo(encinfo)
+            enclosures.append(encinfo)
+            todl_count += 1
+            
+        if (todl_count == 0):
+            return; # nothing to do!
+            
+        self.toolbarSubscr.EnableTool(self.toolCheckAllId,False)
+        self.toolbarSubscr.EnableTool(self.toolCatchupId,False)
+        self.menucheckall.Enable(False)    
+        self.menucheckselected.Enable(False)    
+        self.menucatchup.Enable(False)    
+        self.searchboxdownloads.Enable(False)
+        self.searchboxfeeds.Enable(False)
+
+        self.EnableLanguages(False)
+       
+        #self.toolbarSubscr.EnableTool(self.toolCheckSelectedId,False)
+        if len(self.threads):
+            #We can be called by a button press or by the scheduler.  Only complain
+            #if called by a button press.
+            if event.GetId() == xrc.XRCID("ID_CHECKNOW"):
+                alert = wx.MessageDialog(self.frame, self.m_stringtable.GetText(self.m_currentlanguage, "str_on_double_check"), style=wx.OK)
+                response = alert.ShowModal()
+                alert.Destroy()
+            return
+
+        dl = iPodderDownloadEnclosures(self,enclosures)
+        dl.ipodder = self.ipodder
+        # make the thread terminate if the main thread does: 
+        dl.setDaemon(True)
+        self.progressBar.SetValue(0)
+        dl.start()
+        self.threads.append(dl)
+
     def OnCatchup(self,event):
         event.iPodderCatchup = 1
         self.OnCheckNow(event)
@@ -2975,6 +3048,17 @@ class iPodderGui(wx.App,
             self.ToggleEpisodesListItem(index)
         event.Skip()
 
+    def updateEpisodeUI(self):
+        todl_count = 0
+        for encinfo in self.episodesdict.itervalues():
+            if (encinfo.status == 'to_download'):
+                todl_count += 1
+        
+        if (todl_count > 0):
+            self.menudownloadselected.Enable(True)
+        else:
+            self.menudownloadselected.Enable(False)
+        
     def ToggleEpisodesListItem(self,index):
         encinfo = self.episodesdict[self.episodes.GetItemData(index)]
 
@@ -2998,6 +3082,7 @@ class iPodderGui(wx.App,
             self.ipodder.history.save_encinfo(encinfo)
             self.episodes.SetStringItem(index,1,self._("str_dl_state_%s" % encinfo.status))
             self.episodes.SetItemImage(index,self.box_unchecked_idx,self.box_unchecked_idx)
+        self.updateEpisodeUI()
             
     def OnEpisodesColClick(self,event):
         self.OnColClick(event,'episodes',self.episodes)
@@ -3028,14 +3113,19 @@ class iPodderGui(wx.App,
             self.feed_episode_menu.Append(id,self._("str_show_notes"))
             wx.EVT_MENU(self.feed_episode_menu, id, self.OnShowNotes)            
         self.hooks('episode-right-click',self.feed_episode_menu,enclosure)
+        id = wx.NewId()
+        self.feed_episode_menu.Append(id,self._("str_dl_selected"))
+        wx.EVT_MENU(self.feed_episode_menu,id,self.OnDownloadSelected)
         self.episodes.PopupMenu(self.feed_episode_menu)
 
     def OnCopyEpisodeLocation(self,event):
         enclosure = self.feed_episode_menu_info
+        self.feed_episode_menu_info = None
         clipboard.set_clipboard_text(enclosure.url)
 
     def OnPlayEpisode(self,event):
         enclosure = self.feed_episode_menu_info
+        self.feed_episode_menu_info = None
         if enclosure.filename and os.path.exists(enclosure.filename):
             self.PlayEpisode(enclosure.filename)
         else:
@@ -3043,6 +3133,7 @@ class iPodderGui(wx.App,
 
     def OnShowNotes(self,event):
         enclosure = self.feed_episode_menu_info
+        self.feed_episode_menu_info = None
         self.LaunchShowNotesDialog(enclosure)
         
     def LaunchShowNotesDialog(self,enclosure):

@@ -49,6 +49,7 @@ def AddStrings(strtable):
     add("str_authentication", u"Authentication")
     add("str_dl_state_skipped", u"Skipped")
     add("str_dl_state_removed", u"Removed")
+    add("str_dl_selected", u"Download selected")
     
     add("str_username", u"Username")
     add("str_password", u"Password")

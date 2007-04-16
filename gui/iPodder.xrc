@@ -77,6 +77,9 @@
         
         <label>CHECK_SELECTED</label>
       </object>
+      <object class="wxMenuItem" name="MENUBARDOWNLOADSELECTED">
+        <label>DOWNLOAD_SELECTED</label>
+      </object>
       <object class="separator"/>
       <object class="wxMenuItem" name="MENUBARADDFEED">
         
