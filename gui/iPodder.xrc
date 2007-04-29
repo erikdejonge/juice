@@ -2208,6 +2208,19 @@
                                   <flag>wxGROW</flag>
                                 </object>
                                 <object class="spacer">
+                                  <size>0,5</size>
+                                </object>
+                                <object class="sizeritem">
+                                  <object class="wxStaticText" name="PRF_RCMD_EPISODE_TITLE">
+                                    
+                                    <label>%e = Episode title</label>
+                                    
+                                    <pos>25,295</pos>
+                                  </object>
+                                  
+                                  <flag>wxGROW</flag>
+                                </object>
+                                <object class="spacer">
                                   
                                   <size>0,15</size>
                                 </object>

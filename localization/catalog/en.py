@@ -357,6 +357,7 @@ def AddStrings(strtable):
     add("str_run_command_download", u"Run this command after each download")
     add("str_rcmd_full_path", u"%f = Full path to downloaded file")
     add("str_rcmd_podcast_name", u"%n = Podcast name")
+    add("str_rcmd_episode_title", u"%e = Episode title")
     add("str_other_advanced_options", u"Other advanced options")
     add("str_show_log", u"Show log tab in application")
 
