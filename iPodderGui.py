@@ -2439,11 +2439,16 @@ class iPodderGui(wx.App,
         count = 0
         for enclosure in enclosures:
             url = enclosure.url
+            if url is None: 
+                log.warn("Enclosure URL is absent.")
+                url = ''
+                
             try: 
                 index = self.episodes.InsertStringItem(self.episodes.GetItemCount(),enclosure.item_title)
             except UnicodeDecodeError: 
                 log.warning("episodes.InsertStringItem failed for: %s", repr(enclosure.item_title))
                 index = self.episodes.InsertStringItem(self.episodes.GetItemCount(), repr(enclosure.item_title))
+            
             id = wx.NewId()
             self.episodesdict[id] = enclosure
             self.episodes.SetItemData(index,id)
@@ -2457,7 +2462,8 @@ class iPodderGui(wx.App,
             if hasattr(enclosure,'length'):
                 mb = "%4.1f" % (int(enclosure.length)/(1024.0*1024))
                 self.episodes.SetStringItem(index,2,mb)
-            self.episodes.SetStringItem(index,3,url)
+            
+            self.episodes.SetStringItem(index, 3, url)
 
             count += 1
             if count % 2 == 1:
@@ -3354,7 +3360,11 @@ class iPodderGui(wx.App,
             else:
                 self.downloads.SetStringItem(index,3,"--")
             self.downloads.SetStringItem(index,4,unicode(encinfo.feed))
-            self.downloads.SetStringItem(index,5,encinfo.url)
+            try: 
+                self.downloads.SetStringItem(index,5,encinfo.url)
+            except TypeError, ex: 
+                log.exception("Can't SetStringItem for %s", repr(encinfo.url))
+                self.downloads.SetStringItem(index,5,repr(encinfo.url))
             if encinfo.status == "downloading":
                 imgidx = self.dl_downloading_idx
             elif encinfo.status == "downloaded":

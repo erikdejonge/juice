@@ -613,10 +613,15 @@ class History(object):
                 them to review their guid usage.""" % (url,guid))
                 enclosurekey = self.db[guidkey]
 
+        enclosureval = None
         if enclosurekey and self.db.has_key(enclosurekey):
             log.debug("Matched enclosure key: %s" % enclosurekey)
             enclosureval = self.db[enclosurekey]
-        else:
+            if enclosureval['enclosure'].get('url') is None: 
+                log.warn("Fetched record had url=None. Asking for re-creation...")
+                enclosureval = None
+
+        if enclosureval is None: 
             log.debug("Looks like a new enclosure to us!")
             enclosureval = self.new_enclosure(enclosure,index,entry,feedinfo,default_status)
 
@@ -647,6 +652,7 @@ class History(object):
                 #actions to resolve, such as filenames set by content-disposition or
                 #30x redirects, will not be found by this algorithm.
                 log.debug("Didn't find file on disk in the default location, so as far as we know it's new.")
+        assert not enclosureval['enclosure'].get('url') is None
                 
         return self.mkencinfo(enclosureval)
 
