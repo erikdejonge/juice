@@ -327,6 +327,7 @@ class PrefsDialog(wx.Dialog):
         self.ValueControl("DLCOMMANDENABLE", "str_run_command_download")
         self.ValueControl("PRF_RCMD_FULL_PATH", "str_rcmd_full_path")
         self.ValueControl("PRF_RCMD_PODCAST_NAME", "str_rcmd_podcast_name")
+        self.ValueControl("PRF_RCMD_EPISODE_TITLE", "str_rcmd_episode_title")
 
         self.ValueControl("PRF_OTHER_ADV_OPTION", "str_other_advanced_options")
         self.ValueControl("SHOWLOGPAGE", "str_show_log")
