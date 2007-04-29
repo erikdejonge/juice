@@ -81,9 +81,10 @@ class Enclosure:
 
         assert(status in ['new','queued','downloading','downloaded',\
                           'cancelled','partial','clearing','skipped','to_download','removed'])
+        assert url is not None
         self.id = id
-        self.url = url
         self.feed = feed
+        self.url = url
         self.marked = marked # for download
         self.length = length
         self.item_title = item_title
@@ -113,11 +114,18 @@ class Enclosure:
         del state['feed']
         return state
     
-    def __setstate__(self,dict):
+    def __setstate__(self, dict):
+        # Left-over from a rotten debugging session Garth had in April 2007. 
+        # Can be removed once his history database recovers. 
+        if dict.has_key('_url'): 
+            dict['url'] = dict.pop('_url')
+            
         self.__dict__.update(dict)
         #TODO: client code assigns feed object
         self.feed = ipodder.get_feeds_instance()[self.feedid]
         del self.feedid
+            
+        # Create missing attributes
         if not hasattr(self,"creation_time"):
             self.creation_time = time.localtime()
         if not hasattr(self,"download_started"):
