@@ -3349,10 +3349,13 @@ class iPodderGui(wx.App,
                 index = self.DownloadTabIndexFromEncinfo(encinfo)
             if index == -1:
                 try: 
-                    index = self.downloads.InsertStringItem(0, encinfo.item_title)
+                    title = unicode(encinfo.item_title)
+                    index = self.downloads.InsertStringItem(0, title)
                 except UnicodeDecodeError: 
                     log.warn("downloads.InsertStringItem failed for: %s", repr(encinfo.item_title))
-                    index = self.downloads.InsertStringItem(0, repr(encinfo.item_title))
+                    # encode using substitutions for problem chars
+                    title = encode(encinfo.item_title,None,True)
+                    index = self.downloads.InsertStringItem(0, title)
             self.downloads.SetStringItem(index,1,self._("str_dl_state_" + encinfo.status))
             self.downloads.SetStringItem(index,2,encinfo.GetStatusDownloadSpeed())
             if encinfo.download_completed:
