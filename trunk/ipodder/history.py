@@ -361,7 +361,9 @@ class HistoryDb(threads.SelfLogger):
                 except KeyError:
                     pass
 
-            url = enclosure['url']
+            url = enclosure.get('url')
+            if url is None: 
+                return
             urlkey = mkurlkey(url)
             urldict = None
             if self.__shelf.has_key(urlkey):
