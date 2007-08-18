@@ -27,6 +27,7 @@ kwargs = dict(
                 "iPodderGui",
                 "updater",
                 "win32gui",
+                'warnings', 
                 ],
             "excludes": [ "Tkinter" ],
             }
