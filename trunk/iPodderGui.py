@@ -3354,7 +3354,7 @@ class iPodderGui(wx.App,
                 except UnicodeDecodeError: 
                     log.warn("downloads.InsertStringItem failed for: %s", repr(encinfo.item_title))
                     # encode using substitutions for problem chars
-                    title = encode(encinfo.item_title,None,True)
+                    title = misc.encode(encinfo.item_title,None,True)
                     index = self.downloads.InsertStringItem(0, title)
             self.downloads.SetStringItem(index,1,self._("str_dl_state_" + encinfo.status))
             self.downloads.SetStringItem(index,2,encinfo.GetStatusDownloadSpeed())

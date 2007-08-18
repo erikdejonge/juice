@@ -225,7 +225,13 @@ def encode(msg, encoding=None, replace=True, replacement=None):
     if replace: 
         if not isinstance(replace, basestring): 
             replace = 'replace'
-        msg = msg.encode(encoding, replace)
+        try: 
+            msg = msg.encode(encoding, replace)
+        except UnicodeDecodeError: 
+            log.error("Can't encode %s with encoding %s.", 
+                    repr(msg), 
+                    encoding)
+            return repr(msg)
     else: 
         msg = msg.encode(encoding) # might fail
     # TODO: come up with a version that doesn't screw up strings 
