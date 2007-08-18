@@ -654,8 +654,6 @@ class History(object):
                 #actions to resolve, such as filenames set by content-disposition or
                 #30x redirects, will not be found by this algorithm.
                 log.debug("Didn't find file on disk in the default location, so as far as we know it's new.")
-        assert not enclosureval['enclosure'].get('url') is None
-                
         return self.mkencinfo(enclosureval)
 
     def mkencinfo(self,rec):
@@ -663,7 +661,9 @@ class History(object):
         entry = rec['entry']
         local = rec['local']
 
-        url = enclosure.get('url')
+        url = enclosure.get('url', enclosure.get('href')) # feedparser 4.1
+        if url is None: 
+            log.warn("enclosure 'url' and 'href' are None in %s", repr(enclosureval))
         
         try: 
             length = int(enclosure.get('length', -1))

@@ -5,7 +5,7 @@ set NSIS_FILE="Juice-2.2.3.nsi"
 REM Where you installed NSIS
 set NSIS=C:\Program Files\NSIS
 REM Where you installed Python (must include py2exe)
-set PYTHONDIR="C:\dev\python25"
+set PYTHONDIR="C:\dev\python24"
 REM the installed EXE name
 set EXEFILE=Juice.exe
 
