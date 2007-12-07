@@ -37,7 +37,7 @@ from xml.dom.minidom import parseString
 
 import gui.iPodderWindows
 
-# Parts of iPodder
+# Parts of iPodder dfds
 from ipodder import core
 from ipodder import conlogging
 from ipodder.configuration import *
