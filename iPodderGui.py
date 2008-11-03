@@ -27,7 +27,7 @@ import urlparse
 import pickle, bsddb.db, bsddb.dbshelve
 import logging, logging.handlers
 import inspect
-import os.path
+import os.path 
 import webbrowser
 import StringIO
 import locale
