@@ -70,7 +70,8 @@ class OurThread(threading.Thread, SelfLogger):
 
     def __init__(self, log=None, target=None, *a, **kw): 
         """Initialise the generic thread."""
-
+        threading.Thread.__init__(self, *a, **kw)
+                
         self.hooks = hooks.HookCollection()
         self.exc_info = None
         self.target = target
@@ -80,7 +81,6 @@ class OurThread(threading.Thread, SelfLogger):
 
         # Initialise our parents
         SelfLogger.__init__(self, log=log, tag=self.name)
-        threading.Thread.__init__(self, *a, **kw)
 
     def run(self): 
         """Run .our_run(), catching exceptions."""

@@ -531,12 +531,12 @@ class IPG_Menu:
             wx.EVT_MENU(self, ID_MAC_EXIT, self.OnExit)
 
             aboutmenu = wx.Menu()             
-            item = aboutmenu.Append(wxID_ABOUT, 'About...','') 
+            item = aboutmenu.Append(wx.ID_ABOUT, 'About...','') 
             self.Bind(wx.EVT_MENU, self.OnMenuAbout, item) 
             self.menubar.Append(aboutmenu,'&Help')    
 
             filemenu = self.menubar.GetMenu(0)
-            item = filemenu.Insert(2,wxID_PREFERENCES, '&Preferences','') 
+            item = filemenu.Insert(2,wx.ID_PREFERENCES, '&Preferences','') 
             self.Bind(wx.EVT_MENU, self.OnMenuPreferences, item)
 
         else:
@@ -875,8 +875,8 @@ class iPodderGui(wx.App,
             self.menubar.FindItemById(xrc.XRCID("MENUBARQUIT")).SetAccel(tmp_accell)   
             self.menubar.FindItemById(xrc.XRCID("MENUBARPREFERENCES")).SetText(self.m_stringtable.GetText(self.m_currentlanguage, "str_preferences_menubar")) 
         else:
-            self.menubar.FindItemById(wxID_ABOUT).SetText(self.m_stringtable.GetText(self.m_currentlanguage, "str_about")) 
-            self.menubar.FindItemById(wxID_PREFERENCES).SetText(self.m_stringtable.GetText(self.m_currentlanguage, "str_preferences_menubar")) 
+            self.menubar.FindItemById(wx.ID_ABOUT).SetText(self.m_stringtable.GetText(self.m_currentlanguage, "str_about")) 
+            self.menubar.FindItemById(wx.ID_PREFERENCES).SetText(self.m_stringtable.GetText(self.m_currentlanguage, "str_preferences_menubar")) 
                    
         # set the tabs
         tabslist = [

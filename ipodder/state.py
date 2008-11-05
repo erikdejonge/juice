@@ -17,6 +17,7 @@
 import pickle
 import bsddb
 from bsddb import db, dbshelve
+import shelve
 import logging
 import shutil
 import os, os.path
@@ -53,8 +54,8 @@ class State(object):
                   | db.DB_INIT_LOCK | db.DB_INIT_MPOOL
         self.__env = env = db.DBEnv()
         env.open(self.__config.appdata_dir, self.__flags)
-        self.__shelf = dbshelve.open(self.__config.state_db_file, 
-                                     'c', dbenv=env)
+        self.__shelf = shelve.open(self.__config.state_db_file, 
+                                     'c')#, dbenv=env)
         log.debug("State database opened with %d entries.", 
                   len(self.keys()))
 
