@@ -619,6 +619,8 @@ class History(object):
         if enclosurekey and self.db.has_key(enclosurekey):
             log.debug("Matched enclosure key: %s" % enclosurekey)
             enclosureval = self.db[enclosurekey]
+            print enclosureval.keys()
+            print dir(enclosureval)
             if enclosureval['enclosure'].get('url') is None: 
                 log.warn("Fetched record had url=None. Asking for re-creation...")
                 enclosureval = None
