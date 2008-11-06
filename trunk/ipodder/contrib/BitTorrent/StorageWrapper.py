@@ -1,7 +1,7 @@
 # Written by Bram Cohen
 # see LICENSE.txt for license information
 
-from sha import sha
+from hashlib import sha1
 from threading import Event
 from bitfield import Bitfield
 
@@ -64,7 +64,7 @@ class StorageWrapper:
             elif not check_hashes:
                 markgot(i, i)
             else:
-                sh = sha(self.storage.read(piece_size * i, lastlen))
+                sh = sha1(self.storage.read(piece_size * i, lastlen))
                 sp = sh.digest()
                 sh.update(self.storage.read(piece_size * i + lastlen, self._piecelen(i) - lastlen))
                 s = sh.digest()
@@ -146,7 +146,7 @@ class StorageWrapper:
             if self.places.has_key(n):
                 oldpos = self.places[n]
                 old = self.storage.read(self.piece_size * oldpos, self._piecelen(n))
-                if self.have[n] and sha(old).digest() != self.hashes[n]:
+                if self.have[n] and sha1(old).digest() != self.hashes[n]:
                     self.failed('data corrupted on disk - maybe you have two copies running?')
                     return True
                 self.storage.write(self.piece_size * n, old)
@@ -176,7 +176,7 @@ class StorageWrapper:
         self.storage.write(self.places[index] * self.piece_size + begin, piece)
         self.numactive[index] -= 1
         if not self.inactive_requests[index] and not self.numactive[index]:
-            if sha(self.storage.read(self.piece_size * self.places[index], self._piecelen(index))).digest() == self.hashes[index]:
+            if sha1(self.storage.read(self.piece_size * self.places[index], self._piecelen(index))).digest() == self.hashes[index]:
                 self.have[index] = True
                 self.inactive_requests[index] = None
                 self.waschecked[index] = True
@@ -206,7 +206,7 @@ class StorageWrapper:
         if not self.have[index]:
             return None
         if not self.waschecked[index]:
-            if sha(self.storage.read(self.piece_size * self.places[index], self._piecelen(index))).digest() != self.hashes[index]:
+            if sha1(self.storage.read(self.piece_size * self.places[index], self._piecelen(index))).digest() != self.hashes[index]:
                 self.failed('told file complete on start-up, but piece failed hash check')
                 return None
             self.waschecked[index] = True
@@ -244,7 +244,7 @@ class DummyStorage:
 
 def test_basic():
     ds = DummyStorage(3)
-    sw = StorageWrapper(ds, 2, [sha('abc').digest()], 4, ds.finished, None)
+    sw = StorageWrapper(ds, 2, [sha1('abc').digest()], 4, ds.finished, None)
     assert sw.get_amount_left() == 3
     assert not sw.do_I_have_anything()
     assert sw.get_have_list() == chr(0)
@@ -281,8 +281,8 @@ def test_basic():
 
 def test_two_pieces():
     ds = DummyStorage(4)
-    sw = StorageWrapper(ds, 3, [sha('abc').digest(),
-        sha('d').digest()], 3, ds.finished, None)
+    sw = StorageWrapper(ds, 3, [sha1('abc').digest(),
+        sha1('d').digest()], 3, ds.finished, None)
     assert sw.get_amount_left() == 4
     assert not sw.do_I_have_anything()
     assert sw.get_have_list() == chr(0)
@@ -323,7 +323,7 @@ def test_two_pieces():
 
 def test_hash_fail():
     ds = DummyStorage(4)
-    sw = StorageWrapper(ds, 4, [sha('abcd').digest()], 4, ds.finished, None)
+    sw = StorageWrapper(ds, 4, [sha1('abcd').digest()], 4, ds.finished, None)
     assert sw.get_amount_left() == 4
     assert not sw.do_I_have_anything()
     assert sw.get_have_list() == chr(0)
@@ -348,21 +348,21 @@ def test_hash_fail():
 def test_lazy_hashing():
     ds = DummyStorage(4, ranges = [(0, 4)])
     flag = Event()
-    sw = StorageWrapper(ds, 4, [sha('abcd').digest()], 4, ds.finished, lambda x, flag = flag: flag.set(), check_hashes = False)
+    sw = StorageWrapper(ds, 4, [sha1('abcd').digest()], 4, ds.finished, lambda x, flag = flag: flag.set(), check_hashes = False)
     assert sw.get_piece(0, 0, 2) is None
     assert flag.isSet()
 
 def test_lazy_hashing_pass():
     ds = DummyStorage(4)
     flag = Event()
-    sw = StorageWrapper(ds, 4, [sha(chr(0xFF) * 4).digest()], 4, ds.finished, lambda x, flag = flag: flag.set(), check_hashes = False)
+    sw = StorageWrapper(ds, 4, [sha1(chr(0xFF) * 4).digest()], 4, ds.finished, lambda x, flag = flag: flag.set(), check_hashes = False)
     assert sw.get_piece(0, 0, 2) is None
     assert not flag.isSet()
 
 def test_preexisting():
     ds = DummyStorage(4, True, [(0, 4)])
-    sw = StorageWrapper(ds, 2, [sha(chr(0xFF) * 2).digest(), 
-        sha('ab').digest()], 2, ds.finished, None)
+    sw = StorageWrapper(ds, 2, [sha1(chr(0xFF) * 2).digest(), 
+        sha1('ab').digest()], 2, ds.finished, None)
     assert sw.get_amount_left() == 2
     assert sw.do_I_have_anything()
     assert sw.get_have_list() == chr(0x80)
@@ -381,8 +381,8 @@ def test_preexisting():
 def test_total_too_short():
     ds = DummyStorage(4)
     try:
-        StorageWrapper(ds, 4, [sha(chr(0xff) * 4).digest(),
-            sha(chr(0xFF) * 4).digest()], 4, ds.finished, None)
+        StorageWrapper(ds, 4, [sha1(chr(0xff) * 4).digest(),
+            sha1(chr(0xFF) * 4).digest()], 4, ds.finished, None)
         raise 'fail'
     except ValueError:
         pass
@@ -390,21 +390,21 @@ def test_total_too_short():
 def test_total_too_big():
     ds = DummyStorage(9)
     try:
-        sw = StorageWrapper(ds, 4, [sha('qqqq').digest(),
-            sha(chr(0xFF) * 4).digest()], 4, ds.finished, None)
+        sw = StorageWrapper(ds, 4, [sha1('qqqq').digest(),
+            sha1(chr(0xFF) * 4).digest()], 4, ds.finished, None)
         raise 'fail'
     except ValueError:
         pass
 
 def test_end_above_total_length():
     ds = DummyStorage(3, True)
-    sw = StorageWrapper(ds, 4, [sha('qqq').digest()], 4, ds.finished, None)
+    sw = StorageWrapper(ds, 4, [sha1('qqq').digest()], 4, ds.finished, None)
     assert sw.get_piece(0, 0, 4) == None
 
 def test_end_past_piece_end():
     ds = DummyStorage(4, True, ranges = [(0, 4)])
-    sw = StorageWrapper(ds, 4, [sha(chr(0xFF) * 2).digest(), 
-        sha(chr(0xFF) * 2).digest()], 2, ds.finished, None)
+    sw = StorageWrapper(ds, 4, [sha1(chr(0xFF) * 2).digest(), 
+        sha1(chr(0xFF) * 2).digest()], 2, ds.finished, None)
     assert ds.done
     assert sw.get_piece(0, 0, 3) == None
 
@@ -412,7 +412,7 @@ from random import shuffle
 
 def test_alloc_random():
     ds = DummyStorage(101)
-    sw = StorageWrapper(ds, 1, [sha(chr(i)).digest() for i in xrange(101)], 1, ds.finished, None)
+    sw = StorageWrapper(ds, 1, [sha1(chr(i)).digest() for i in xrange(101)], 1, ds.finished, None)
     for i in xrange(100):
         assert sw.new_request(i) == (0, 1)
     r = range(100)
@@ -425,7 +425,7 @@ def test_alloc_random():
 
 def test_alloc_resume():
     ds = DummyStorage(101)
-    sw = StorageWrapper(ds, 1, [sha(chr(i)).digest() for i in xrange(101)], 1, ds.finished, None)
+    sw = StorageWrapper(ds, 1, [sha1(chr(i)).digest() for i in xrange(101)], 1, ds.finished, None)
     for i in xrange(100):
         assert sw.new_request(i) == (0, 1)
     r = range(100)
@@ -434,7 +434,7 @@ def test_alloc_resume():
         sw.piece_came_in(i, 0, chr(i))
     assert ds.s[50:] == chr(0xFF) * 51
     ds.ranges = [(0, 50)]
-    sw = StorageWrapper(ds, 1, [sha(chr(i)).digest() for i in xrange(101)], 1, ds.finished, None)
+    sw = StorageWrapper(ds, 1, [sha1(chr(i)).digest() for i in xrange(101)], 1, ds.finished, None)
     for i in r[50:]:
         sw.piece_came_in(i, 0, chr(i))
     assert ds.s[:100] == ''.join([chr(i) for i in xrange(100)])
@@ -442,21 +442,21 @@ def test_alloc_resume():
 def test_last_piece_pre():
     ds = DummyStorage(3, ranges = [(2, 1)])
     ds.s = chr(0xFF) + chr(0xFF) + 'c'
-    sw = StorageWrapper(ds, 2, [sha('ab').digest(), sha('c').digest()], 2, ds.finished, None)
+    sw = StorageWrapper(ds, 2, [sha1('ab').digest(), sha1('c').digest()], 2, ds.finished, None)
     assert not sw.do_I_have_requests(1)
     assert sw.do_I_have_requests(0)
 
 def test_not_last_pre():
     ds = DummyStorage(3, ranges = [(1, 1)])
     ds.s = chr(0xFF) + 'a' + chr(0xFF)
-    sw = StorageWrapper(ds, 1, [sha('a').digest()] * 3, 1, ds.finished, None)
+    sw = StorageWrapper(ds, 1, [sha1('a').digest()] * 3, 1, ds.finished, None)
     assert not sw.do_I_have_requests(1)
     assert sw.do_I_have_requests(0)
     assert sw.do_I_have_requests(2)
 
 def test_last_piece_not_pre():
     ds = DummyStorage(51, ranges = [(50, 1)])
-    sw = StorageWrapper(ds, 2, [sha('aa').digest()] * 25 + [sha('b').digest()], 2, ds.finished, None)
+    sw = StorageWrapper(ds, 2, [sha1('aa').digest()] * 25 + [sha1('b').digest()], 2, ds.finished, None)
     for i in xrange(25):
         assert sw.new_request(i) == (0, 2)
     assert sw.new_request(25) == (0, 1)

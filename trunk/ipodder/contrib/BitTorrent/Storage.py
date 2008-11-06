@@ -1,7 +1,7 @@
 # Written by Bram Cohen
 # see LICENSE.txt for license information
 
-from sha import sha
+import hashlib
 from bisect import bisect_right
 
 class Storage:

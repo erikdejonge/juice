@@ -42,14 +42,14 @@ def migrate_2x_tmp_downloads(basepath,state):
                 compatible_enclosure.download_started = encinfo.download_started
                 compatible_enclosure.download_completed = encinfo.download_completed
                 result.append(compatible_enclosure)
-            except:
+            except Exception, e:
                 log.exception("Error migrating 2x-style tmp_downloads entry %d." % i)
-                pass
+                raise e
         #Now save the fruits of our labor.
         state['latest_downloads'] = result
         state.sync()
-    except:
+    except Exception, e::
         log.exception("Error migrating 2x-style tmp_downloads.")
-        pass
+        raise e
 
     return result

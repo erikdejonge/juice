@@ -39,7 +39,7 @@ import threading
 import socket
 import random
 import urllib2
-import sha
+import hashlib
 import gzip
 import zlib
 import StringIO
@@ -80,26 +80,23 @@ AGENT = "Juice/%s (%s) +http://juicereceiver.sf.net/" % (__version__,platform.sy
 BLOCKSIZE = 4096*8
 CACHEMAX = 128*1024
 POLITENESS = 2*60
-
+"""
 class GrabError(Exception): 
-    """Raised when we fail to grab something."""
     def __init__(self, message, ex=None): 
-        """Initialise the GrabError."""
+        raise ex
         Exception.__init__(self, message, ex)
-        self.message = message
+        self.message = ex.strerror
         self.exception = ex
 
 class GzipError(GrabError): 
-    """Raised when Gzip fails."""
     pass
 
 class AuthenticationError(GrabError):
-    """Raised when authentication fails."""
     pass
 
 class UserAborted(GrabError): 
-    """Raised when we realise stop() was called before we were done."""
     pass
+"""
 
 class GenericGrabber(threads.SelfLogger):
     """Generic grabber. Over-ride download()."""

@@ -14,7 +14,7 @@ from os.path import exists, isfile
 from cStringIO import StringIO
 from time import time, gmtime, strftime
 from random import shuffle
-from sha import sha
+from hashlib import sha1
 from types import StringType, IntType, LongType, ListType, DictType
 from binascii import b2a_hex, a2b_hex, a2b_base64
 import sys
@@ -82,7 +82,7 @@ def parseTorrents(dir):
             try:
                 p = os.path.join(dir,f)
                 d = bdecode(open(p, 'rb').read())
-                h = sha(bencode(d['info'])).digest()
+                h = sha1(bencode(d['info'])).digest()
                 i = d['info']
                 a[h] = {}
                 a[h]['name'] = i.get('name', f)
