@@ -20,7 +20,7 @@ from PiecePicker import PiecePicker
 from bencode import bencode, bdecode
 from __init__ import version
 from binascii import b2a_hex
-from sha import sha
+from hashlib import sha1
 from os import path, makedirs
 from parseargs import parseargs, formatDefinitions
 from socket import error as socketerror
@@ -189,7 +189,7 @@ def download(params, filefunc, statusfunc, finfunc, errorfunc, doneflag, cols, p
     finflag = Event()
     ann = [None]
     myid = 'M' + version.replace('.', '-')
-    myid = myid + ('-' * (8 - len(myid))) + b2a_hex(sha(repr(time()) + ' ' + str(getpid())).digest()[-6:])
+    myid = myid + ('-' * (8 - len(myid))) + b2a_hex(sha1(repr(time()) + ' ' + str(getpid())).digest()[-6:])
     seed(myid)
     pieces = [info['pieces'][x:x+20] for x in xrange(0, 
         len(info['pieces']), 20)]
@@ -266,7 +266,7 @@ def download(params, filefunc, statusfunc, finfunc, errorfunc, doneflag, cols, p
         ratemeasure.data_came_in)
     connecter = Connecter(make_upload, downloader, choker,
         len(pieces), upmeasure, config['max_upload_rate'] * 1024, rawserver.add_task)
-    infohash = sha(bencode(info)).digest()
+    infohash = sha1(bencode(info)).digest()
     encoder = Encoder(connecter, rawserver, 
         myid, config['max_message_length'], rawserver.add_task, 
         config['keepalive_interval'], infohash, config['max_initiate'])

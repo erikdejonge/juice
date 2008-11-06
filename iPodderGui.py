@@ -24,7 +24,7 @@ import os
 import shutil
 import urllib
 import urlparse
-import pickle, bsddb.db, bsddb.dbshelve
+import pickle
 import logging, logging.handlers
 import inspect
 import os.path 
@@ -37,7 +37,7 @@ from xml.dom.minidom import parseString
 
 import gui.iPodderWindows
 
-# Parts of iPodder dfds
+# Parts of iPodder
 from ipodder import core
 from ipodder import conlogging
 from ipodder.configuration import *
@@ -75,7 +75,7 @@ from gui.skin import \
 from gui import skin
 
 #Debug params - Edit me
-DEBUG = False
+DEBUG = True
 TIMER_INTERVAL = 10000
 
 #GUI params -- Don't edit me.
@@ -653,6 +653,8 @@ class IPG_Menu:
         webbrowser.open("http://sourceforge.net/tracker/?group_id=118306&atid=681694")
 
     def OnMenuCheckForUpdates(self,event):
+        return
+        #raise Exception("update checker disabled")
         upc = UpdateChecker(event, self.m_stringtable, self.m_currentlanguage, self.frame, self);
         upc.start()
         
@@ -717,7 +719,6 @@ class iPodderGui(wx.App,
     def __init__(self,ipodder,options):
         self.ipodder = ipodder
         self.options = options
-        
         # wxApp usually sends error messages to a wxWindow. This can be a problem if you are trying to debug 
         # a crash, the window disappears before you can see the traceback. The first argument to wxApp is 
         # redirect=True, the second is filename=None. You specify a filename to write to that file, or 

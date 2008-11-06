@@ -24,7 +24,7 @@ from os.path import *
 from string import join
 import time
 import re
-from sha import *
+from hashlib import *
 from threading import Event
 import logging
 import pickle, bsddb.db, bsddb.dbshelve
@@ -167,22 +167,18 @@ class FeedScanningJob(engine.Job):
             grabber.stop()
         
     def run(self): 
-        """Run, Forrest! Run!"""
         local_resultlist = [] # self.resultlist may have other stuff in it
         is_cache_hit = False
         feedinfo = self.feedinfo
         sio = StringIO.StringIO()
-        # etag = feedinfo.get('etag', '')
-        # modified = feedinfo.get('modified', '')
         self.grabber = grabbers.BasicGrabber(
                 feedinfo.url, sio, state=self.state)
-        # ... etag=etag, modified=modified, 
         try: 
             self.grabber()
             if hasattr(self.grabber,'is_cache_hit'):
                 #Save for later since we set drop the reference to the grabber
                 is_cache_hit = self.grabber.is_cache_hit
-        except grabbers.AuthenticationError, ex:
+        except ex:
             self.hooks('autherror',feedinfo)
             self.error("Can't grab %s: %s", str(feedinfo), ex.message)
             return

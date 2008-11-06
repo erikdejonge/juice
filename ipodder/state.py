@@ -15,8 +15,7 @@
 #
 
 import pickle
-import bsddb
-from bsddb import db, dbshelve
+from bsddb import db
 import shelve
 import logging
 import shutil
@@ -50,10 +49,10 @@ class State(object):
         if self.__shelf is not None:
             return
         log.debug("Opening state database...")
-        self.__flags = db.DB_PRIVATE | db.DB_CREATE | db.DB_THREAD \
-                  | db.DB_INIT_LOCK | db.DB_INIT_MPOOL
-        self.__env = env = db.DBEnv()
-        env.open(self.__config.appdata_dir, self.__flags)
+        #self.__flags = db.DB_PRIVATE | db.DB_CREATE | db.DB_THREAD \
+        #          | db.DB_INIT_LOCK | db.DB_INIT_MPOOL
+        #self.__env = env = db.DBEnv()
+        #env.open(self.__config.appdata_dir, self.__flags)
         self.__shelf = shelve.open(self.__config.state_db_file, 
                                      'c')#, dbenv=env)
         log.debug("State database opened with %d entries.", 
@@ -74,7 +73,7 @@ class State(object):
                 self.__shelf.close()
             finally: 
                 self.__shelf = None
-                self.__env.close()
+                #self.__env.close()
 
     def sync(self): 
         """Synchronise changes to disk."""
@@ -105,12 +104,13 @@ class State(object):
                 except bsddb._db.DBVerifyBadError, ex: 
                     log.exception("Database verification failed.")
                     should_salvage = True
-            except: 
+            except Exception, e:
                 log.exception("That didn't work.")
                 try: 
                     idb.close()
                 except:
                     pass
+                raise e
             log.info("Self-check complete.")
             if should_salvage:
                 self.salvage()

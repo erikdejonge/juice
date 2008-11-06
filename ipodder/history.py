@@ -1,6 +1,6 @@
 from bsddb import db, dbshelve
 import bsddb
-import logging,md5,time,os,threading,time
+import logging,hashlib,time,os,threading,time
 import shelve
 import shutil
 import ipodder.core
@@ -18,9 +18,9 @@ def mkurlkey(url):
     # V2.2 and earlier did not encode, which caused problems
     # in non-English locales
     try:
-        urlhash = md5.md5(url).hexdigest()
+        urlhash = hashlib.md5(url).hexdigest()
     except UnicodeError, ue:
-        urlhash = md5.md5(misc.encode(url,'utf8')).hexdigest()
+        urlhash = hashlib.md5(misc.encode(url,'utf8')).hexdigest()
     return "url:%s" % urlhash
 
 def mkguidkey(guid, index):
@@ -28,9 +28,9 @@ def mkguidkey(guid, index):
     # V2.2 and earlier did not encode, which caused problems
     # in non-English locales
     try:
-        guidhash = md5.md5(guid).hexdigest()
+        guidhash = hashlib.md5(guid).hexdigest()
     except UnicodeError, ue:
-        guidhash = md5.md5(misc.encode(guid,'utf8')).hexdigest()
+        guidhash = hashlib.md5(misc.encode(guid,'utf8')).hexdigest()
 
     return "guid:%d:%s" % (index,guidhash)
 
@@ -42,9 +42,9 @@ def mkfilenamekey(filename):
     # V2.2 and earlier did not encode universally, which caused problems
     # in non-English locales.
     try:
-        filenamehash = md5.md5(misc.encode(filename, 'ascii', replace='xmlcharrefreplace')).hexdigest()
+        filenamehash = hashlib.md5(misc.encode(filename, 'ascii', replace='xmlcharrefreplace')).hexdigest()
     except UnicodeError, ue:
-        filenamehash = md5.md5(misc.encode(filename, 'utf8', replace='xmlcharrefreplace')).hexdigest()
+        filenamehash = hashlib.md5(misc.encode(filename, 'utf8', replace='xmlcharrefreplace')).hexdigest()
     return 'filename:%s' % filenamehash    
 
 def mkfeedkey(feed_id):
